@@ -31,6 +31,13 @@ const THEMES = {
 
 function FontLoader() {
   useEffect(() => {
+    // Viewport meta — critical for mobile scaling
+    if (!document.querySelector('meta[name="viewport"]')) {
+      const m = document.createElement("meta");
+      m.name = "viewport";
+      m.content = "width=device-width, initial-scale=1, maximum-scale=5";
+      document.head.appendChild(m);
+    }
     const l = document.createElement("link");
     l.rel = "stylesheet";
     l.href = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap";
@@ -309,7 +316,7 @@ function Nav({ t, onSwitch }) {
   return (
     <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 300 }}>
       {/* ── Logo bar ── */}
-      <div style={{
+      <div className="px-nav-bar" style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "13px 40px",
         background: navBg,
@@ -317,11 +324,11 @@ function Nav({ t, onSwitch }) {
         borderBottom: `1px solid ${t.border}`,
         transition: "background 0.3s",
       }}>
-        <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: "1.5rem", letterSpacing: "0.04em", color: t.text }}>
+        <div className="px-nav-logo" style={{ fontFamily: t.font, fontWeight: 900, fontSize: "1.5rem", letterSpacing: "0.04em", color: t.text }}>
           PRARAMBH<span style={{ color: t.primary }}>X</span>
           <span style={{ marginLeft: 8, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, fontWeight: 400 }}>Technologies</span>
         </div>
-        <nav style={{ display: "flex", gap: 26 }}>
+        <nav className="px-nav-links" style={{ display: "flex", gap: 26 }}>
           {["About", "Products", "Traction", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`}
               style={{ fontFamily: t.monoFont, fontSize: "0.63rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, textDecoration: "none", transition: "color 0.2s" }}
@@ -333,13 +340,12 @@ function Nav({ t, onSwitch }) {
       </div>
 
       {/* ── Toggle bar ── */}
-      <div style={{
+      <div className="px-toggle-bar" style={{
         display: "flex", alignItems: "center", justifyContent: "center",
         padding: "14px 40px",
         background: navBg,
         backdropFilter: "blur(14px)",
         borderBottom: `1px solid ${t.border}`,
-        // Subtle bottom glow on the whole bar matching active theme
         boxShadow: t.isET
           ? "0 4px 24px -4px rgba(255,107,26,0.12)"
           : "0 4px 24px -4px rgba(26,60,255,0.18)",
@@ -365,8 +371,8 @@ function DeepTechSite({ t }) {
   return (
     <>
       {/* HERO */}
-      <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "160px 48px 80px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontFamily: t.font, fontWeight: 900, fontSize: "clamp(100px,20vw,280px)", color: "rgba(26,60,255,0.04)", whiteSpace: "nowrap", pointerEvents: "none", letterSpacing: "-0.03em" }}>UAV</div>
+      <section className="px-hero px-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "160px 48px 80px", position: "relative", overflow: "hidden" }}>
+        <div className="px-ghost-text" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontFamily: t.font, fontWeight: 900, fontSize: "clamp(100px,20vw,280px)", color: "rgba(26,60,255,0.04)", whiteSpace: "nowrap", pointerEvents: "none", letterSpacing: "-0.03em" }}>UAV</div>
         <DLabel t={t}>// Aerospace · Drone Technology · Component Manufacturing</DLabel>
         <h1 style={{ fontFamily: t.font, fontWeight: 900, fontSize: "clamp(54px,10vw,132px)", lineHeight: 0.9, textTransform: "uppercase", letterSpacing: "-0.02em", marginTop: 10 }}>
           <span style={{ color: t.primary }}>Logistics</span><br />
@@ -380,7 +386,7 @@ function DeepTechSite({ t }) {
           <DBtn t={t} href="#products">Explore Products →</DBtn>
           <DBtnOut t={t} href="#contact">Partner With Us</DBtnOut>
         </div>
-        <div style={{ display: "flex", gap: 36, marginTop: 56, flexWrap: "wrap" }}>
+        <div className="px-hero-stats" style={{ display: "flex", gap: 36, marginTop: 56, flexWrap: "wrap" }}>
           {[{ n: "#2", l: "Global Drone Design\nSAE Aero West 2025" }, { n: "2", l: "UAV Platforms\nIn Development" }, { n: "₹52K", l: "International\nPrototype Funding" }].map(s => (
             <div key={s.n} style={{ borderLeft: `2px solid ${t.primary}`, paddingLeft: 14 }}>
               <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: "2.2rem", lineHeight: 1 }}>{s.n}</div>
@@ -388,7 +394,7 @@ function DeepTechSite({ t }) {
             </div>
           ))}
         </div>
-        <div style={{ position: "absolute", right: 48, top: "50%", transform: "translateY(-50%)", width: 320 }}>
+        <div className="px-hero-float" style={{ position: "absolute", right: 48, top: "50%", transform: "translateY(-50%)", width: 320 }}>
           <ImgBox label="Flagship Drone / Hero Shot" height={220} t={t} />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
             <ImgBox label="Prototype Photo" height={100} t={t} />
@@ -398,7 +404,7 @@ function DeepTechSite({ t }) {
       </section>
 
       {/* ABOUT */}
-      <section id="about" style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+      <section id="about" className="px-section px-about" style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
         <Reveal>
           <DLabel t={t}>About DeepTech Vertical</DLabel>
           <h2 style={DH2(t)}>UAV Solutions<br />Built for India</h2>
@@ -419,7 +425,7 @@ function DeepTechSite({ t }) {
       {/* PRODUCTS */}
       <section id="products" style={{ padding: "100px 48px", background: t.bgSection, borderTop: `1px solid ${t.border}` }}>
         <Reveal><DLabel t={t}>Products</DLabel><h2 style={DH2(t)}>What We're<br />Engineering</h2></Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3, marginTop: 50 }}>
+        <div className="px-products" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3, marginTop: 50 }}>
           {products.map((p, i) => <Reveal key={p.title} delay={i * 0.08}><DProductCard p={p} t={t} /></Reveal>)}
         </div>
       </section>
@@ -427,7 +433,7 @@ function DeepTechSite({ t }) {
       {/* TARGET SECTORS */}
       <section style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}` }}>
         <Reveal><DLabel t={t}>Target Sectors</DLabel><h2 style={DH2(t)}>Where Our<br />UAVs Operate</h2></Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3, marginTop: 50 }}>
+        <div className="px-sectors" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3, marginTop: 50 }}>
           {[
             { icon: "📦", title: "Logistics & Last-Mile", body: "Cost-effective drone delivery in urban and semi-urban areas where conventional logistics face access barriers." },
             { icon: "🚨", title: "Disaster Management", body: "Real-time aerial alerts and emergency supply delivery to affected zones during floods, earthquakes and other disasters." },
@@ -447,7 +453,7 @@ function DeepTechSite({ t }) {
           <h2 style={DH2(t)}>Proven on the<br />Global Stage</h2>
           <p style={{ marginTop: 14, fontSize: "1rem", color: t.textMuted, maxWidth: 500 }}>Our engineering team has ranked at the highest levels — validating PrarambhX's technical capabilities on the world stage.</p>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 3, marginTop: 50 }}>
+        <div className="px-achievements" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 3, marginTop: 50 }}>
           {[
             { rank: "#1", color: "#ffd700", label: "All India Rank\nSAE Drone Dev Challenge 2023" },
             { rank: "#1", color: "#ffd700", label: "All India — Technical Presentation\nSAE Drone Dev Challenge 2024" },
@@ -531,8 +537,8 @@ function EdTechSite({ t }) {
     <>
       {/* HERO */}
       <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "160px 48px 80px", background: `linear-gradient(135deg, ${t.bg} 55%, #fff5e8 100%)`, position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -100, right: -100, width: 450, height: 450, borderRadius: "50%", background: "rgba(255,107,26,0.07)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: -60, left: "28%", width: 300, height: 300, borderRadius: "50%", background: "rgba(255,184,0,0.09)", pointerEvents: "none" }} />
+        <div className="px-blob" style={{ position: "absolute", top: -100, right: -100, width: 450, height: 450, borderRadius: "50%", background: "rgba(255,107,26,0.07)", pointerEvents: "none" }} />
+        <div className="px-blob" style={{ position: "absolute", bottom: -60, left: "28%", width: 300, height: 300, borderRadius: "50%", background: "rgba(255,184,0,0.09)", pointerEvents: "none" }} />
         <div style={{ flex: 1, maxWidth: 560 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(255,107,26,0.1)", border: `1px solid rgba(255,107,26,0.22)`, borderRadius: 999, padding: "5px 15px", marginBottom: 20 }}>
             <span>✦</span>
@@ -557,7 +563,7 @@ function EdTechSite({ t }) {
             ))}
           </div>
         </div>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, maxWidth: 340, marginLeft: "auto" }}>
+        <div className="px-et-hero-img" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, maxWidth: 340, marginLeft: "auto" }}>
           <ImgBox label="Students Building Drone / Workshop Photo" height={220} t={t} />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <ImgBox label="Classroom Session" height={110} t={t} />
@@ -568,7 +574,7 @@ function EdTechSite({ t }) {
 
       {/* ABOUT */}
       <section id="about" style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}` }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }} className="px-about">
           <Reveal><ImgBox label="Hands-on Workshop / Students with UAV" height={300} t={t} /></Reveal>
           <Reveal delay={0.15}>
             <ELabel t={t}>Why EdTech?</ELabel>
@@ -592,7 +598,7 @@ function EdTechSite({ t }) {
           <h2 style={EH2(t)}>Workshops &<br />Services</h2>
           <p style={{ marginTop: 14, fontSize: "1rem", color: t.textMuted, maxWidth: 500 }}>Every program is interactive, practical, and aligned with school curricula — no prior drone experience needed.</p>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 18, marginTop: 50 }}>
+        <div className="px-products" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 18, marginTop: 50 }}>
           {workshops.map((w, i) => <Reveal key={w.title} delay={i * 0.08}><EWorkshopCard w={w} t={t} /></Reveal>)}
         </div>
       </section>
@@ -603,7 +609,7 @@ function EdTechSite({ t }) {
           <ELabel t={t}>Student Outcomes</ELabel>
           <h2 style={EH2(t)}>What Students<br />Take Home</h2>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginTop: 50 }}>
+        <div className="px-outcomes" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginTop: 50 }}>
           {[
             { icon: "🧠", title: "Technical Proficiency", body: "Real hands-on skills in electronics, programming and aeronautics beyond textbook learning." },
             { icon: "🔬", title: "STEM Career Readiness", body: "Exposure to aerospace engineering, robotics and coding opens high-demand career pathways." },
@@ -628,7 +634,7 @@ function EdTechSite({ t }) {
           <h2 style={EH2(t)}>Schools We've<br />Worked With</h2>
           <p style={{ marginTop: 14, fontSize: "1rem", color: t.textMuted, maxWidth: 480 }}>PrarambhX has delivered paid educational programs across 6 Jawahar Navodaya Vidyalayas, generating ₹2,65,854 in EdTech revenue.</p>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginTop: 50, alignItems: "start" }}>
+        <div className="px-traction-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginTop: 50, alignItems: "start" }}>
           <Reveal>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {schools.map((s, i) => (
@@ -698,7 +704,7 @@ function ContactSection({ t }) {
 
   return (
     <section id="contact" style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}` }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
+      <div className="px-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
         <Reveal>
           <h2 style={{ fontFamily: t.font, fontWeight: 900, fontSize: "clamp(36px,5.5vw,78px)", lineHeight: 0.95, letterSpacing: "-0.02em", textTransform: isET ? "none" : "uppercase", marginBottom: 30 }}>
             {isET ? <>Let's Bring<br />Drones to<br /><span style={{ color: t.primary }}>Your School</span></> : <>Let's<br />Build<br /><span style={{ color: t.primary }}>Together</span></>}
@@ -724,7 +730,7 @@ function ContactSection({ t }) {
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 13, background: isET ? t.bgCard : "transparent", padding: isET ? 28 : 0, borderRadius: isET ? 18 : 0, border: isET ? `1px solid ${t.border}` : "none" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 13 }}>
+              <div className="px-2col-form" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 13 }}>
                 {[{ l: "Name", k: "name", p: "Your name" }, { l: "Organisation", k: "org", p: "School / Company" }].map(f => (
                   <CField key={f.k} t={t} label={f.l} value={form[f.k]} onChange={v => setForm({ ...form, [f.k]: v })} placeholder={f.p} />
                 ))}
@@ -760,11 +766,11 @@ function CField({ t, label, value, onChange, placeholder, type = "text" }) {
 /* ── FOOTER ── */
 function Footer({ t }) {
   return (
-    <footer style={{ padding: "28px 48px", borderTop: `1px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, background: t.bg }}>
+    <footer className="px-footer" style={{ padding: "28px 48px", borderTop: `1px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, background: t.bg }}>
       <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: "1.2rem", letterSpacing: "0.04em", color: t.textMuted }}>
         PRARAMBH<span style={{ color: t.primary }}>X</span> Technologies Pvt. Ltd.
       </div>
-      <div style={{ fontFamily: t.monoFont, fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, textAlign: "right", lineHeight: 1.9 }}>
+      <div className="px-footer-meta" style={{ fontFamily: t.monoFont, fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, textAlign: "right", lineHeight: 1.9 }}>
         CIN: U62099PN2025PTC248557 · +91 9561109023<br />
         www.prarambhx.com · Punawale, Pune - 411033<br />
         © 2025 PrarambhX Technologies Pvt. Ltd.
@@ -773,13 +779,19 @@ function Footer({ t }) {
   );
 }
 
-/* ── GLOBAL STYLES ── */
+/* ── GLOBAL STYLES + FULL MOBILE RESPONSIVENESS ── */
 function GlobalStyles({ t }) {
   return (
     <style>{`
       *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
       html { scroll-behavior: smooth; }
-      body { background: ${t.bg}; color: ${t.text}; font-family: ${t.bodyFont}; overflow-x: hidden; transition: background 0.4s, color 0.4s; }
+      body {
+        background: ${t.bg}; color: ${t.text};
+        font-family: ${t.bodyFont};
+        overflow-x: hidden;
+        transition: background 0.4s, color 0.4s;
+        -webkit-text-size-adjust: 100%;
+      }
       body::before {
         content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
         ${t.id === "deeptech"
@@ -793,6 +805,90 @@ function GlobalStyles({ t }) {
       ::-webkit-scrollbar { width: 5px; }
       ::-webkit-scrollbar-track { background: ${t.bg}; }
       ::-webkit-scrollbar-thumb { background: ${t.primary}55; }
+
+      /* ── TABLET & MOBILE: ≤ 768px ── */
+      @media (max-width: 768px) {
+
+        /* Nav */
+        .px-nav-links { display: none !important; }
+        .px-nav-bar   { padding: 12px 20px !important; }
+        .px-nav-logo  { font-size: 1.2rem !important; }
+        .px-toggle-bar { padding: 10px 16px !important; }
+
+        /* Toggle pill label */
+        .px-btn-label { padding: 10px 20px !important; font-size: 0.65rem !important; letter-spacing: 0.14em !important; }
+
+        /* Main content offset — taller stacked nav on mobile */
+        .px-main { padding-top: 120px !important; }
+
+        /* Hero sections — stack vertically */
+        .px-hero { padding: 40px 20px 60px !important; min-height: auto !important; flex-direction: column !important; }
+        .px-hero-img-cluster { display: none !important; } /* hide floating image cluster on mobile */
+        .px-hero-stats { flex-direction: row !important; flex-wrap: wrap !important; gap: 20px !important; margin-top: 32px !important; }
+
+        /* All 2-col grids → single column */
+        .px-2col  { grid-template-columns: 1fr !important; gap: 28px !important; }
+        .px-3col  { grid-template-columns: 1fr !important; gap: 16px !important; }
+        .px-4col  { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+        .px-2col-form { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+        /* Section padding */
+        .px-section { padding: 60px 20px !important; }
+
+        /* EdTech hero — stack image below text */
+        .px-et-hero { flex-direction: column !important; padding: 40px 20px 60px !important; }
+        .px-et-hero-img { max-width: 100% !important; margin-left: 0 !important; margin-top: 32px !important; width: 100% !important; }
+
+        /* Achievement tiles — 2 per row on mobile */
+        .px-achievements { grid-template-columns: 1fr 1fr !important; }
+
+        /* School list + metrics side by side → stack */
+        .px-traction-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+        /* Contact grid → stack */
+        .px-contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+        /* Footer → center stack */
+        .px-footer { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 24px 20px !important; }
+        .px-footer-meta { text-align: left !important; }
+
+        /* Verticals side-by-side → stack */
+        .px-verticals { grid-template-columns: 1fr !important; }
+
+        /* Product cards 2col → 1col on small phones */
+        .px-products { grid-template-columns: 1fr !important; gap: 14px !important; }
+
+        /* Outcome cards 4col → 2col */
+        .px-outcomes { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+
+        /* About section 2col → stack, reverse on ET */
+        .px-about { grid-template-columns: 1fr !important; gap: 28px !important; }
+
+        /* Sector cards 3col → 1col */
+        .px-sectors { grid-template-columns: 1fr !important; gap: 14px !important; }
+
+        /* Hide large ghost BG text (too wide on mobile) */
+        .px-ghost-text { display: none !important; }
+
+        /* Floating hero image absolute → hidden */
+        .px-hero-float { display: none !important; }
+
+        /* Deep blob decorations */
+        .px-blob { display: none !important; }
+
+        /* Typography scale-down */
+        h1 { font-size: clamp(44px, 12vw, 80px) !important; }
+        h2 { font-size: clamp(28px, 8vw, 52px) !important; }
+      }
+
+      /* ── SMALL PHONES: ≤ 400px ── */
+      @media (max-width: 400px) {
+        .px-4col        { grid-template-columns: 1fr !important; }
+        .px-achievements { grid-template-columns: 1fr !important; }
+        .px-outcomes    { grid-template-columns: 1fr !important; }
+        .px-btn-label   { padding: 9px 14px !important; font-size: 0.6rem !important; }
+        .px-hero-stats  { flex-direction: column !important; gap: 16px !important; }
+      }
     `}</style>
   );
 }
@@ -875,7 +971,7 @@ export default function App() {
         transition: fading ? "opacity 0.28s ease" : "opacity 0.38s ease",
         willChange: "opacity",
       }}>
-        <main style={{ paddingTop: 140 }}>
+        <main className="px-main" style={{ paddingTop: 140 }}>
           {themeId === "deeptech" ? <DeepTechSite t={t} /> : <EdTechSite t={t} />}
         </main>
         <Footer t={t} />
