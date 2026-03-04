@@ -76,7 +76,7 @@ function ImgBox({ label, height = 200, t }) {
 }
 
 /* ── GLIDING TOGGLE ── */
-function ThemeToggle({ theme, onSwitch }) {
+function ThemeToggle({ theme, onSwitch, mob = false }) {
   const activeIdx = theme.id === "deeptech" ? 0 : 1;
   const [pillPos, setPillPos]     = useState(activeIdx);   // 0 = left, 1 = right
   const [hovered, setHovered]     = useState(null);
@@ -182,8 +182,8 @@ function ThemeToggle({ theme, onSwitch }) {
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <span style={{ display: "block", width: 36, height: 1, background: `linear-gradient(90deg, transparent, ${glowCol})` }} />
         <span style={{
-          fontFamily: "'Space Mono', monospace", fontSize: "0.56rem",
-          letterSpacing: "0.3em", textTransform: "uppercase",
+          fontFamily: "'Space Mono', monospace", fontSize: mob ? "0.5rem" : "0.56rem",
+          letterSpacing: mob ? "0.2em" : "0.3em", textTransform: "uppercase",
           color: glowCol, fontWeight: 700,
           textShadow: `0 0 12px ${glowCol}`,
           transition: "color 0.5s, text-shadow 0.5s",
@@ -258,11 +258,11 @@ function ThemeToggle({ theme, onSwitch }) {
                 onMouseEnter={() => setHovered(idx)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  padding: "11px 34px",
+                  padding: mob ? "8px 18px" : "11px 34px",
                   borderRadius: 2,
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: "0.72rem",
-                  letterSpacing: "0.2em",
+                  fontSize: mob ? "0.62rem" : "0.72rem",
+                  letterSpacing: mob ? "0.12em" : "0.2em",
                   textTransform: "uppercase",
                   fontWeight: active ? 700 : 400,
                   color: active ? "#fff" : isHov ? (theme.isET ? "#1a1208" : "#f4f6ff") : theme.textMuted,
@@ -301,7 +301,7 @@ function ThemeToggle({ theme, onSwitch }) {
 }
 
 /* ── NAV ── */
-function Nav({ t, onSwitch }) {
+function Nav({ t, onSwitch, mob }) {
   const [sc, setSc] = useState(false);
   useEffect(() => {
     const fn = () => setSc(window.scrollY > 50);
@@ -315,43 +315,46 @@ function Nav({ t, onSwitch }) {
 
   return (
     <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 300 }}>
-      {/* ── Logo bar ── */}
-      <div className="px-nav-bar" style={{
+      {/* Logo bar */}
+      <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "13px 40px",
-        background: navBg,
-        backdropFilter: "blur(18px)",
-        borderBottom: `1px solid ${t.border}`,
-        transition: "background 0.3s",
+        padding: mob ? "11px 18px" : "13px 40px",
+        background: navBg, backdropFilter: "blur(18px)",
+        borderBottom: `1px solid ${t.border}`, transition: "background 0.3s",
       }}>
-        <div className="px-nav-logo" style={{ fontFamily: t.font, fontWeight: 900, fontSize: "1.5rem", letterSpacing: "0.04em", color: t.text }}>
+        <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "1.2rem" : "1.5rem", letterSpacing: "0.04em", color: t.text }}>
           PRARAMBH<span style={{ color: t.primary }}>X</span>
-          <span style={{ marginLeft: 8, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, fontWeight: 400 }}>Technologies</span>
+          {!mob && <span style={{ marginLeft: 8, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, fontWeight: 400 }}>Technologies</span>}
         </div>
-        <nav className="px-nav-links" style={{ display: "flex", gap: 26 }}>
-          {["About", "Products", "Traction", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`}
-              style={{ fontFamily: t.monoFont, fontSize: "0.63rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={e => e.target.style.color = t.primary}
-              onMouseLeave={e => e.target.style.color = t.textMuted}
-            >{l}</a>
-          ))}
-        </nav>
+        {/* Nav links — desktop only */}
+        {!mob && (
+          <nav style={{ display: "flex", gap: 26 }}>
+            {["About", "Products", "Traction", "Contact"].map(l => (
+              <a key={l} href={`#${l.toLowerCase()}`}
+                style={{ fontFamily: t.monoFont, fontSize: "0.63rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => e.target.style.color = t.primary}
+                onMouseLeave={e => e.target.style.color = t.textMuted}
+              >{l}</a>
+            ))}
+          </nav>
+        )}
+        {/* Mobile: small contact button */}
+        {mob && (
+          <a href="#contact" style={{ fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.primary, textDecoration: "none", border: `1px solid ${t.primary}`, padding: "6px 12px", borderRadius: t.isET ? 999 : 2 }}>
+            Contact
+          </a>
+        )}
       </div>
-
-      {/* ── Toggle bar ── */}
-      <div className="px-toggle-bar" style={{
+      {/* Toggle bar */}
+      <div style={{
         display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "14px 40px",
-        background: navBg,
-        backdropFilter: "blur(14px)",
+        padding: mob ? "8px 16px" : "14px 40px",
+        background: navBg, backdropFilter: "blur(14px)",
         borderBottom: `1px solid ${t.border}`,
-        boxShadow: t.isET
-          ? "0 4px 24px -4px rgba(255,107,26,0.12)"
-          : "0 4px 24px -4px rgba(26,60,255,0.18)",
+        boxShadow: t.isET ? "0 4px 24px -4px rgba(255,107,26,0.12)" : "0 4px 24px -4px rgba(26,60,255,0.18)",
         transition: "box-shadow 0.5s ease",
       }}>
-        <ThemeToggle theme={t} onSwitch={onSwitch} />
+        <ThemeToggle theme={t} onSwitch={onSwitch} mob={mob} />
       </div>
     </div>
   );
@@ -360,162 +363,176 @@ function Nav({ t, onSwitch }) {
 /* ══════════════════════════════════════════
    DEEPTECH SITE
 ══════════════════════════════════════════ */
-function DeepTechSite({ t }) {
+function DeepTechSite({ t, mob }) {
+  const P = mob ? "20px" : "48px";
+  const SP = mob ? "56px" : "100px";
+
   const products = [
-    { status: "POC Stage", sc: "#ffb800", title: "Logistics UAV Platform", body: "Mission-specific payload release mechanism for reliable, repeatable delivery operations — designed for last-mile logistics and emergency supply drops across Indian urban terrain.", img: "Logistics Drone / Prototype Photo" },
-    { status: "POC Performed", sc: "#00ff88", title: "SkyAlert — Public Safety UAV", body: "A UAV-based alert system for real-time information distribution during natural disasters. Funded by La Trobe University, Melbourne and PCCOE Pune (INR 52,000).", img: "SkyAlert Drone in Operation" },
-    { status: "Schematic Stage", sc: t.accent, title: "Smart Flight Controller", body: "In-house flight controller with built-in OLED display showing altitude, GPS count, battery voltage and flight modes — fully independent of off-the-shelf autopilot platforms.", img: "PCB / Flight Controller Concept" },
-    { status: "CAD Design Stage", sc: t.accent, title: "Modular UAV Architecture", body: "Interchangeable modules for airframe, propulsion, avionics and payload interfaces — enabling faster mission adaptability and reduced time-to-deployment.", img: "Modular UAV CAD Render" },
+    { status: "POC Stage", sc: "#ffb800", title: "Logistics UAV Platform", body: "Mission-specific payload release for last-mile logistics and emergency supply drops across Indian urban terrain.", img: "Logistics Drone / Prototype Photo" },
+    { status: "POC Performed", sc: "#00ff88", title: "SkyAlert — Public Safety UAV", body: "UAV-based alert system for real-time info during natural disasters. Funded by La Trobe University & PCCOE Pune (INR 52,000).", img: "SkyAlert Drone in Operation" },
+    { status: "Schematic Stage", sc: t.accent, title: "Smart Flight Controller", body: "In-house flight controller with OLED display showing altitude, GPS, battery voltage and flight modes.", img: "PCB / Flight Controller Concept" },
+    { status: "CAD Design Stage", sc: t.accent, title: "Modular UAV Architecture", body: "Interchangeable modules for airframe, propulsion, avionics and payload — faster mission adaptability.", img: "Modular UAV CAD Render" },
   ];
 
   return (
     <>
-      {/* HERO */}
-      <section className="px-hero px-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "160px 48px 80px", position: "relative", overflow: "hidden" }}>
-        <div className="px-ghost-text" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontFamily: t.font, fontWeight: 900, fontSize: "clamp(100px,20vw,280px)", color: "rgba(26,60,255,0.04)", whiteSpace: "nowrap", pointerEvents: "none", letterSpacing: "-0.03em" }}>UAV</div>
-        <DLabel t={t}>// Aerospace · Drone Technology · Component Manufacturing</DLabel>
-        <h1 style={{ fontFamily: t.font, fontWeight: 900, fontSize: "clamp(54px,10vw,132px)", lineHeight: 0.9, textTransform: "uppercase", letterSpacing: "-0.02em", marginTop: 10 }}>
+      {/* ── HERO ── */}
+      <section style={{ minHeight: mob ? "auto" : "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: mob ? `32px ${P} 48px` : `160px ${P} 80px`, position: "relative", overflow: "hidden" }}>
+        {!mob && <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontFamily: t.font, fontWeight: 900, fontSize: "clamp(100px,20vw,280px)", color: "rgba(26,60,255,0.04)", whiteSpace: "nowrap", pointerEvents: "none", letterSpacing: "-0.03em" }}>UAV</div>}
+
+        <DLabel t={t} mob={mob}>// Aerospace · Drone Technology · Component Manufacturing</DLabel>
+        <h1 style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "clamp(42px,13vw,64px)" : "clamp(54px,10vw,132px)", lineHeight: 0.9, textTransform: "uppercase", letterSpacing: "-0.02em", marginTop: 8 }}>
           <span style={{ color: t.primary }}>Logistics</span><br />
-          <span style={{ WebkitTextStroke: `2px ${t.text}`, color: "transparent" }}>UAV</span><br />
+          <span style={{ WebkitTextStroke: mob ? `1.5px ${t.text}` : `2px ${t.text}`, color: "transparent" }}>UAV</span><br />
           Platform
         </h1>
-        <p style={{ marginTop: 26, fontSize: "1.05rem", fontWeight: 300, lineHeight: 1.7, maxWidth: 490, color: t.textMuted }}>
+        <p style={{ marginTop: mob ? 16 : 26, fontSize: mob ? "0.9rem" : "1.05rem", fontWeight: 300, lineHeight: 1.7, maxWidth: mob ? "100%" : 490, color: t.textMuted }}>
           Mission-specific drone solutions engineered for India's dense urban airspace — from payload delivery to public safety emergency response.
         </p>
-        <div style={{ marginTop: 40, display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <DBtn t={t} href="#products">Explore Products →</DBtn>
-          <DBtnOut t={t} href="#contact">Partner With Us</DBtnOut>
+        <div style={{ marginTop: mob ? 24 : 40, display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <DBtn t={t} href="#products" mob={mob}>Explore Products →</DBtn>
+          <DBtnOut t={t} href="#contact" mob={mob}>Partner With Us</DBtnOut>
         </div>
-        <div className="px-hero-stats" style={{ display: "flex", gap: 36, marginTop: 56, flexWrap: "wrap" }}>
+
+        {/* Stats row */}
+        <div style={{ display: "flex", gap: mob ? 20 : 36, marginTop: mob ? 32 : 56, flexWrap: "wrap" }}>
           {[{ n: "#2", l: "Global Drone Design\nSAE Aero West 2025" }, { n: "2", l: "UAV Platforms\nIn Development" }, { n: "₹52K", l: "International\nPrototype Funding" }].map(s => (
-            <div key={s.n} style={{ borderLeft: `2px solid ${t.primary}`, paddingLeft: 14 }}>
-              <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: "2.2rem", lineHeight: 1 }}>{s.n}</div>
-              <div style={{ fontFamily: t.monoFont, fontSize: "0.57rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, marginTop: 5, lineHeight: 1.6, whiteSpace: "pre-line" }}>{s.l}</div>
+            <div key={s.n} style={{ borderLeft: `2px solid ${t.primary}`, paddingLeft: 12 }}>
+              <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "1.6rem" : "2.2rem", lineHeight: 1 }}>{s.n}</div>
+              <div style={{ fontFamily: t.monoFont, fontSize: mob ? "0.5rem" : "0.57rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, marginTop: 4, lineHeight: 1.6, whiteSpace: "pre-line" }}>{s.l}</div>
             </div>
           ))}
         </div>
-        <div className="px-hero-float" style={{ position: "absolute", right: 48, top: "50%", transform: "translateY(-50%)", width: 320 }}>
-          <ImgBox label="Flagship Drone / Hero Shot" height={220} t={t} />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
-            <ImgBox label="Prototype Photo" height={100} t={t} />
-            <ImgBox label="SkyAlert UAV" height={100} t={t} />
+
+        {/* Floating image — desktop only */}
+        {!mob && (
+          <div style={{ position: "absolute", right: 48, top: "50%", transform: "translateY(-50%)", width: 320 }}>
+            <ImgBox label="Flagship Drone / Hero Shot" height={220} t={t} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
+              <ImgBox label="Prototype Photo" height={100} t={t} />
+              <ImgBox label="SkyAlert UAV" height={100} t={t} />
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
-      {/* ABOUT */}
-      <section id="about" className="px-section px-about" style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+      {/* ── ABOUT ── */}
+      <section id="about" style={{ padding: `${SP} ${P}`, borderTop: `1px solid ${t.border}`, display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: mob ? 28 : 60, alignItems: "center" }}>
         <Reveal>
-          <DLabel t={t}>About DeepTech Vertical</DLabel>
-          <h2 style={DH2(t)}>UAV Solutions<br />Built for India</h2>
-          <p style={{ marginTop: 16, fontSize: "1rem", lineHeight: 1.78, color: t.textMuted }}>India's UAV market needs platforms designed from the ground up for Indian conditions — dense urban layouts, complex airspace, and diverse missions. PrarambhX engineers mission-specific UAV systems with in-house architecture.</p>
-          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
+          <DLabel t={t} mob={mob}>About DeepTech Vertical</DLabel>
+          <h2 style={DH2(t, mob)}>UAV Solutions<br />Built for India</h2>
+          <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted }}>India's UAV market needs platforms designed from the ground up for Indian conditions — dense urban layouts, complex airspace, and diverse missions.</p>
+          <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 10 }}>
             {["Mission-specific design & payload integration", "In-house flight controller architecture", "Modular airframe for rapid mission adaptability", "Designed for Indian urban airspace & regulations"].map(f => (
-              <div key={f} style={{ display: "flex", alignItems: "center", gap: 11, fontSize: "0.88rem", color: t.textMuted }}>
-                <span style={{ color: t.accent, fontSize: "0.75rem" }}>◆</span>{f}
+              <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: mob ? "0.82rem" : "0.88rem", color: t.textMuted }}>
+                <span style={{ color: t.accent, fontSize: "0.72rem", flexShrink: 0 }}>◆</span>{f}
               </div>
             ))}
           </div>
         </Reveal>
-        <Reveal delay={0.15}>
-          <ImgBox label="UAV Design / In-house Development" height={280} t={t} />
-        </Reveal>
+        {!mob && <Reveal delay={0.15}><ImgBox label="UAV Design / In-house Development" height={280} t={t} /></Reveal>}
       </section>
 
-      {/* PRODUCTS */}
-      <section id="products" style={{ padding: "100px 48px", background: t.bgSection, borderTop: `1px solid ${t.border}` }}>
-        <Reveal><DLabel t={t}>Products</DLabel><h2 style={DH2(t)}>What We're<br />Engineering</h2></Reveal>
-        <div className="px-products" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3, marginTop: 50 }}>
-          {products.map((p, i) => <Reveal key={p.title} delay={i * 0.08}><DProductCard p={p} t={t} /></Reveal>)}
+      {/* ── PRODUCTS ── */}
+      <section id="products" style={{ padding: `${SP} ${P}`, background: t.bgSection, borderTop: `1px solid ${t.border}` }}>
+        <Reveal>
+          <DLabel t={t} mob={mob}>Products</DLabel>
+          <h2 style={DH2(t, mob)}>What We're<br />Engineering</h2>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: mob ? 14 : 3, marginTop: mob ? 28 : 50 }}>
+          {products.map((p, i) => <Reveal key={p.title} delay={i * 0.08}><DProductCard p={p} t={t} mob={mob} /></Reveal>)}
         </div>
       </section>
 
-      {/* TARGET SECTORS */}
-      <section style={{ padding: "100px 48px", borderTop: `1px solid ${t.border}` }}>
-        <Reveal><DLabel t={t}>Target Sectors</DLabel><h2 style={DH2(t)}>Where Our<br />UAVs Operate</h2></Reveal>
-        <div className="px-sectors" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3, marginTop: 50 }}>
+      {/* ── TARGET SECTORS ── */}
+      <section style={{ padding: `${SP} ${P}`, borderTop: `1px solid ${t.border}` }}>
+        <Reveal>
+          <DLabel t={t} mob={mob}>Target Sectors</DLabel>
+          <h2 style={DH2(t, mob)}>Where Our<br />UAVs Operate</h2>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "repeat(3, 1fr)", gap: mob ? 12 : 3, marginTop: mob ? 28 : 50 }}>
           {[
             { icon: "📦", title: "Logistics & Last-Mile", body: "Cost-effective drone delivery in urban and semi-urban areas where conventional logistics face access barriers." },
             { icon: "🚨", title: "Disaster Management", body: "Real-time aerial alerts and emergency supply delivery to affected zones during floods, earthquakes and other disasters." },
-            { icon: "🏗️", title: "Construction & Inspection", body: "Aerial monitoring, surveying and inspection of construction sites and infrastructure using custom drone platforms." },
+            { icon: "🏗️", title: "Construction & Inspection", body: "Aerial monitoring, surveying and inspection of construction sites and infrastructure." },
           ].map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.1}>
-              <DSectorCard s={s} t={t} />
-            </Reveal>
+            <Reveal key={s.title} delay={i * 0.1}><DSectorCard s={s} t={t} mob={mob} /></Reveal>
           ))}
         </div>
       </section>
 
-      {/* ACHIEVEMENTS */}
-      <section id="traction" style={{ padding: "100px 48px", background: t.bgSection, borderTop: `1px solid ${t.border}` }}>
+      {/* ── ACHIEVEMENTS ── */}
+      <section id="traction" style={{ padding: `${SP} ${P}`, background: t.bgSection, borderTop: `1px solid ${t.border}` }}>
         <Reveal>
-          <DLabel t={t}>Competition Record</DLabel>
-          <h2 style={DH2(t)}>Proven on the<br />Global Stage</h2>
-          <p style={{ marginTop: 14, fontSize: "1rem", color: t.textMuted, maxWidth: 500 }}>Our engineering team has ranked at the highest levels — validating PrarambhX's technical capabilities on the world stage.</p>
+          <DLabel t={t} mob={mob}>Competition Record</DLabel>
+          <h2 style={DH2(t, mob)}>Proven on the<br />Global Stage</h2>
+          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 500 }}>Our engineering team has ranked at the highest levels — validating PrarambhX's technical capabilities on the world stage.</p>
         </Reveal>
-        <div className="px-achievements" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 3, marginTop: 50 }}>
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr 1fr" : "repeat(4, 1fr)", gap: mob ? 10 : 3, marginTop: mob ? 24 : 50 }}>
           {[
-            { rank: "#1", color: "#ffd700", label: "All India Rank\nSAE Drone Dev Challenge 2023" },
-            { rank: "#1", color: "#ffd700", label: "All India — Technical Presentation\nSAE Drone Dev Challenge 2024" },
-            { rank: "#2", color: "#c0c0c0", label: "Global — Drone Design\nSAE Aero Design West, CA 2025" },
-            { rank: "#5", color: "#cd7f32", label: "Global — Overall\nSAE Aero Design West, CA 2025" },
+            { rank: "#1", color: "#ffd700", label: "All India Rank\nSAE Drone Dev 2023" },
+            { rank: "#1", color: "#ffd700", label: "All India Technical\nSAE Drone Dev 2024" },
+            { rank: "#2", color: "#c0c0c0", label: "Global Drone Design\nSAE Aero West CA 2025" },
+            { rank: "#5", color: "#cd7f32", label: "Global Overall\nSAE Aero West CA 2025" },
           ].map((a, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <div style={{ padding: "34px 22px", background: t.bgCard, border: `1px solid ${t.border}`, textAlign: "center" }}>
-                <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: "3.6rem", color: a.color, lineHeight: 1 }}>{a.rank}</div>
-                <div style={{ fontFamily: t.monoFont, fontSize: "0.6rem", letterSpacing: "0.1em", color: t.textMuted, marginTop: 10, whiteSpace: "pre-line", lineHeight: 1.6 }}>{a.label}</div>
+              <div style={{ padding: mob ? "20px 14px" : "34px 22px", background: t.bgCard, border: `1px solid ${t.border}`, textAlign: "center" }}>
+                <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "2.6rem" : "3.6rem", color: a.color, lineHeight: 1 }}>{a.rank}</div>
+                <div style={{ fontFamily: t.monoFont, fontSize: mob ? "0.5rem" : "0.6rem", letterSpacing: "0.08em", color: t.textMuted, marginTop: 8, whiteSpace: "pre-line", lineHeight: 1.6 }}>{a.label}</div>
               </div>
             </Reveal>
           ))}
         </div>
         <Reveal delay={0.15}>
-          <div style={{ marginTop: 28, padding: "20px 26px", background: "rgba(0,212,255,0.05)", border: `1px solid rgba(0,212,255,0.18)`, borderLeft: `4px solid ${t.accent}` }}>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.7, color: t.textMuted }}>SkyAlert received prototype development funding from <strong style={{ color: t.accent }}>La Trobe University, Melbourne, Australia</strong> and <strong style={{ color: t.accent }}>PCCOE, Pune</strong>.</p>
+          <div style={{ marginTop: 20, padding: mob ? "16px 18px" : "20px 26px", background: "rgba(0,212,255,0.05)", border: `1px solid rgba(0,212,255,0.18)`, borderLeft: `4px solid ${t.accent}` }}>
+            <p style={{ fontSize: mob ? "0.82rem" : "0.88rem", lineHeight: 1.7, color: t.textMuted }}>SkyAlert received prototype funding from <strong style={{ color: t.accent }}>La Trobe University, Melbourne</strong> and <strong style={{ color: t.accent }}>PCCOE, Pune</strong>.</p>
           </div>
         </Reveal>
       </section>
 
-      <ContactSection t={t} />
+      <ContactSection t={t} mob={mob} />
     </>
   );
 }
 
-function DLabel({ children, t }) {
+function DLabel({ children, t, mob }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-      <span style={{ display: "inline-block", width: 18, height: 1, background: t.accent }} />
-      <span style={{ fontFamily: t.monoFont, fontSize: "0.63rem", letterSpacing: "0.2em", textTransform: "uppercase", color: t.accent }}>{children}</span>
+    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+      <span style={{ display: "inline-block", width: 16, height: 1, background: t.accent }} />
+      <span style={{ fontFamily: t.monoFont, fontSize: mob ? "0.52rem" : "0.63rem", letterSpacing: "0.18em", textTransform: "uppercase", color: t.accent }}>{children}</span>
     </div>
   );
 }
-function DH2(t) { return { fontFamily: t.font, fontWeight: 800, fontSize: "clamp(30px,5vw,66px)", lineHeight: 0.95, textTransform: "uppercase", letterSpacing: "-0.01em" }; }
-function DBtn({ children, href, t }) {
-  const [h, setH] = useState(false);
-  return <a href={href} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: h ? "#3a6fff" : t.primary, color: "#fff", fontFamily: t.monoFont, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "12px 26px", textDecoration: "none", clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))", transition: "all 0.2s", transform: h ? "translateY(-2px)" : "none" }}>{children}</a>;
+function DH2(t, mob) {
+  return { fontFamily: t.font, fontWeight: 800, fontSize: mob ? "clamp(26px,8vw,40px)" : "clamp(30px,5vw,66px)", lineHeight: 0.95, textTransform: "uppercase", letterSpacing: "-0.01em" };
 }
-function DBtnOut({ children, href, t }) {
+function DBtn({ children, href, t, mob }) {
   const [h, setH] = useState(false);
-  return <a href={href} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ display: "inline-flex", alignItems: "center", gap: 7, border: `1px solid ${h ? t.accent : "rgba(244,246,255,0.28)"}`, color: h ? t.accent : t.text, fontFamily: t.monoFont, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "12px 26px", textDecoration: "none", transition: "all 0.2s" }}>{children}</a>;
+  return <a href={href} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: h ? "#3a6fff" : t.primary, color: "#fff", fontFamily: t.monoFont, fontSize: mob ? "0.62rem" : "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: mob ? "10px 18px" : "12px 26px", textDecoration: "none", clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))", transition: "all 0.2s" }}>{children}</a>;
 }
-function DProductCard({ p, t }) {
+function DBtnOut({ children, href, t, mob }) {
+  const [h, setH] = useState(false);
+  return <a href={href} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ display: "inline-flex", alignItems: "center", gap: 7, border: `1px solid ${h ? t.accent : "rgba(244,246,255,0.28)"}`, color: h ? t.accent : t.text, fontFamily: t.monoFont, fontSize: mob ? "0.62rem" : "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: mob ? "10px 18px" : "12px 26px", textDecoration: "none", transition: "all 0.2s" }}>{children}</a>;
+}
+function DProductCard({ p, t, mob }) {
   const [h, setH] = useState(false);
   return (
-    <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ padding: "30px 26px", background: h ? "rgba(26,60,255,0.1)" : t.bgCard, border: `1px solid ${h ? t.borderHov : t.border}`, transition: "all 0.25s", overflow: "hidden", position: "relative", display: "flex", flexDirection: "column" }}>
+    <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ padding: mob ? "20px 18px" : "30px 26px", background: h ? "rgba(26,60,255,0.1)" : t.bgCard, border: `1px solid ${h ? t.borderHov : t.border}`, transition: "all 0.25s", overflow: "hidden", position: "relative", display: "flex", flexDirection: "column" }}>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: t.primary, transform: h ? "scaleX(1)" : "scaleX(0)", transformOrigin: "left", transition: "transform 0.3s" }} />
-      <div style={{ display: "inline-block", fontFamily: t.monoFont, fontSize: "0.56rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 8px", border: `1px solid ${p.sc}`, color: p.sc, marginBottom: 12, alignSelf: "flex-start" }}>{p.status}</div>
-      <div style={{ fontFamily: t.font, fontWeight: 700, fontSize: "1.3rem", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 9 }}>{p.title}</div>
-      <div style={{ fontSize: "0.86rem", lineHeight: 1.65, color: t.textMuted, marginBottom: 18 }}>{p.body}</div>
-      <ImgBox label={p.img} height={150} t={t} />
+      <div style={{ display: "inline-block", fontFamily: t.monoFont, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 8px", border: `1px solid ${p.sc}`, color: p.sc, marginBottom: 10, alignSelf: "flex-start" }}>{p.status}</div>
+      <div style={{ fontFamily: t.font, fontWeight: 700, fontSize: mob ? "1.1rem" : "1.3rem", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 8 }}>{p.title}</div>
+      <div style={{ fontSize: mob ? "0.82rem" : "0.86rem", lineHeight: 1.65, color: t.textMuted, marginBottom: mob ? 12 : 18 }}>{p.body}</div>
+      {!mob && <ImgBox label={p.img} height={150} t={t} />}
     </div>
   );
 }
-function DSectorCard({ s, t }) {
+function DSectorCard({ s, t, mob }) {
   const [h, setH] = useState(false);
   return (
-    <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ padding: "34px 26px", background: h ? "rgba(26,60,255,0.1)" : t.bgCard, border: `1px solid ${h ? t.borderHov : t.border}`, transition: "all 0.25s", transform: h ? "translateY(-4px)" : "none" }}>
-      <div style={{ fontSize: "1.9rem", marginBottom: 12 }}>{s.icon}</div>
-      <div style={{ fontFamily: t.font, fontWeight: 700, fontSize: "1.25rem", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 9 }}>{s.title}</div>
-      <div style={{ fontSize: "0.86rem", lineHeight: 1.65, color: t.textMuted }}>{s.body}</div>
+    <div onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ padding: mob ? "20px 18px" : "34px 26px", background: h ? "rgba(26,60,255,0.1)" : t.bgCard, border: `1px solid ${h ? t.borderHov : t.border}`, transition: "all 0.25s", transform: h ? "translateY(-3px)" : "none" }}>
+      <div style={{ fontSize: mob ? "1.5rem" : "1.9rem", marginBottom: 10 }}>{s.icon}</div>
+      <div style={{ fontFamily: t.font, fontWeight: 700, fontSize: mob ? "1rem" : "1.25rem", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 8 }}>{s.title}</div>
+      <div style={{ fontSize: mob ? "0.82rem" : "0.86rem", lineHeight: 1.65, color: t.textMuted }}>{s.body}</div>
     </div>
   );
 }
@@ -779,7 +796,18 @@ function Footer({ t }) {
   );
 }
 
-/* ── GLOBAL STYLES + FULL MOBILE RESPONSIVENESS ── */
+/* ── MOBILE HOOK — detects screen width reactively ── */
+function useMobile() {
+  const [mob, setMob] = useState(() => window.innerWidth <= 768);
+  useEffect(() => {
+    const fn = () => setMob(window.innerWidth <= 768);
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, []);
+  return mob;
+}
+
+/* ── GLOBAL STYLES ── */
 function GlobalStyles({ t }) {
   return (
     <style>{`
@@ -805,90 +833,9 @@ function GlobalStyles({ t }) {
       ::-webkit-scrollbar { width: 5px; }
       ::-webkit-scrollbar-track { background: ${t.bg}; }
       ::-webkit-scrollbar-thumb { background: ${t.primary}55; }
-
-      /* ── TABLET & MOBILE: ≤ 768px ── */
-      @media (max-width: 768px) {
-
-        /* Nav */
-        .px-nav-links { display: none !important; }
-        .px-nav-bar   { padding: 12px 20px !important; }
-        .px-nav-logo  { font-size: 1.2rem !important; }
-        .px-toggle-bar { padding: 10px 16px !important; }
-
-        /* Toggle pill label */
-        .px-btn-label { padding: 10px 20px !important; font-size: 0.65rem !important; letter-spacing: 0.14em !important; }
-
-        /* Main content offset — taller stacked nav on mobile */
-        .px-main { padding-top: 120px !important; }
-
-        /* Hero sections — stack vertically */
-        .px-hero { padding: 40px 20px 60px !important; min-height: auto !important; flex-direction: column !important; }
-        .px-hero-img-cluster { display: none !important; } /* hide floating image cluster on mobile */
-        .px-hero-stats { flex-direction: row !important; flex-wrap: wrap !important; gap: 20px !important; margin-top: 32px !important; }
-
-        /* All 2-col grids → single column */
-        .px-2col  { grid-template-columns: 1fr !important; gap: 28px !important; }
-        .px-3col  { grid-template-columns: 1fr !important; gap: 16px !important; }
-        .px-4col  { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
-        .px-2col-form { grid-template-columns: 1fr !important; gap: 12px !important; }
-
-        /* Section padding */
-        .px-section { padding: 60px 20px !important; }
-
-        /* EdTech hero — stack image below text */
-        .px-et-hero { flex-direction: column !important; padding: 40px 20px 60px !important; }
-        .px-et-hero-img { max-width: 100% !important; margin-left: 0 !important; margin-top: 32px !important; width: 100% !important; }
-
-        /* Achievement tiles — 2 per row on mobile */
-        .px-achievements { grid-template-columns: 1fr 1fr !important; }
-
-        /* School list + metrics side by side → stack */
-        .px-traction-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-
-        /* Contact grid → stack */
-        .px-contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-
-        /* Footer → center stack */
-        .px-footer { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 24px 20px !important; }
-        .px-footer-meta { text-align: left !important; }
-
-        /* Verticals side-by-side → stack */
-        .px-verticals { grid-template-columns: 1fr !important; }
-
-        /* Product cards 2col → 1col on small phones */
-        .px-products { grid-template-columns: 1fr !important; gap: 14px !important; }
-
-        /* Outcome cards 4col → 2col */
-        .px-outcomes { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
-
-        /* About section 2col → stack, reverse on ET */
-        .px-about { grid-template-columns: 1fr !important; gap: 28px !important; }
-
-        /* Sector cards 3col → 1col */
-        .px-sectors { grid-template-columns: 1fr !important; gap: 14px !important; }
-
-        /* Hide large ghost BG text (too wide on mobile) */
-        .px-ghost-text { display: none !important; }
-
-        /* Floating hero image absolute → hidden */
-        .px-hero-float { display: none !important; }
-
-        /* Deep blob decorations */
-        .px-blob { display: none !important; }
-
-        /* Typography scale-down */
-        h1 { font-size: clamp(44px, 12vw, 80px) !important; }
-        h2 { font-size: clamp(28px, 8vw, 52px) !important; }
-      }
-
-      /* ── SMALL PHONES: ≤ 400px ── */
-      @media (max-width: 400px) {
-        .px-4col        { grid-template-columns: 1fr !important; }
-        .px-achievements { grid-template-columns: 1fr !important; }
-        .px-outcomes    { grid-template-columns: 1fr !important; }
-        .px-btn-label   { padding: 9px 14px !important; font-size: 0.6rem !important; }
-        .px-hero-stats  { flex-direction: column !important; gap: 16px !important; }
-      }
+      .px-btn-label { transition: color 0.38s ease, transform 0.2s ease; }
+      .px-btn-label:hover { transform: scale(1.04); }
+      .px-btn-label:active { transform: scale(0.97); }
     `}</style>
   );
 }
@@ -941,23 +888,17 @@ function playWhoosh(toEdtech) {
 export default function App() {
   const [themeId, setThemeId] = useState("deeptech");
   const [fading,  setFading]  = useState(false);
+  const mob = useMobile();
   const t = THEMES[themeId];
 
   const switchTheme = (id) => {
     if (id === themeId) return;
-
-    // Play directional whoosh immediately on click
     playWhoosh(id === "edtech");
-
-    // Simple fade out → swap → fade in
     setFading(true);
     setTimeout(() => {
       setThemeId(id);
       window.scrollTo({ top: 0 });
-      // Small tick to let new theme render before fading back in
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setFading(false));
-      });
+      requestAnimationFrame(() => requestAnimationFrame(() => setFading(false)));
     }, 280);
   };
 
@@ -965,16 +906,12 @@ export default function App() {
     <>
       <FontLoader />
       <GlobalStyles t={t} />
-      <Nav t={t} onSwitch={switchTheme} />
-      <div style={{
-        opacity: fading ? 0 : 1,
-        transition: fading ? "opacity 0.28s ease" : "opacity 0.38s ease",
-        willChange: "opacity",
-      }}>
-        <main className="px-main" style={{ paddingTop: 140 }}>
-          {themeId === "deeptech" ? <DeepTechSite t={t} /> : <EdTechSite t={t} />}
+      <Nav t={t} onSwitch={switchTheme} mob={mob} />
+      <div style={{ opacity: fading ? 0 : 1, transition: fading ? "opacity 0.28s ease" : "opacity 0.38s ease", willChange: "opacity" }}>
+        <main style={{ paddingTop: mob ? 110 : 140 }}>
+          {themeId === "deeptech" ? <DeepTechSite t={t} mob={mob} /> : <EdTechSite t={t} mob={mob} />}
         </main>
-        <Footer t={t} />
+        <Footer t={t} mob={mob} />
       </div>
     </>
   );
