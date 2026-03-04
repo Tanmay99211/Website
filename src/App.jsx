@@ -58,11 +58,12 @@ function useReveal() {
 }
 
 function useMobile() {
-  const [mob, setMob] = useState(() => window.innerWidth <= 768);
+  const [mob, setMob] = useState(false);
   useEffect(() => {
-    const fn = () => setMob(window.innerWidth <= 768);
-    window.addEventListener("resize", fn);
-    return () => window.removeEventListener("resize", fn);
+    const check = () => setMob(window.innerWidth <= 768);
+    check(); // run immediately after mount
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
   return mob;
 }
