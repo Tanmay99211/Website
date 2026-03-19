@@ -128,11 +128,20 @@ function ImgBox({ label, height = 200, t }) {
   const [error,  setError]  = useState(false);
 
   const prompt = PROMPTS[label] || `professional photo of ${label}, high quality, sharp`;
-  const seed   = label.split("").reduce((a, c) => a + c.charCodeAt(0), 0); // stable seed per label
-  const url    = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=${Math.round(height * 3)}&seed=${seed}&nologo=true`;
+  const seed   = label.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const [retries, setRetries] = useState(0);
+  // Use new gen.pollinations.ai endpoint
+  const url    = `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?width=800&height=${Math.round(height * 3)}&seed=${seed + retries}&nologo=true&model=flux`;
+
+  const handleError = () => {
+    if (retries < 2) {
+      setTimeout(() => { setLoaded(false); setRetries(r => r + 1); }, 2000);
+    } else {
+      setError(true);
+    }
+  };
 
   if (error) {
-    // Fallback to placeholder if image fails
     return (
       <div style={{ width: "100%", height, background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.07)", border: `1.5px dashed ${t.border}`, borderRadius: t.isET ? 14 : 0, display: "flex", alignItems: "center", justifyContent: "center", color: t.textMuted, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
         {label}
@@ -142,20 +151,21 @@ function ImgBox({ label, height = 200, t }) {
 
   return (
     <div style={{ width: "100%", height, borderRadius: t.isET ? 14 : 0, overflow: "hidden", position: "relative", background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.08)" }}>
-      {/* Shimmer loading state */}
       {!loaded && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <div style={{ width: 28, height: 28, border: `2px solid ${t.border}`, borderTop: `2px solid ${t.primary}`, borderRadius: "50%", animation: "px-spin 0.8s linear infinite" }} />
-          <span style={{ fontFamily: t.monoFont, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted }}>Generating...</span>
+          <span style={{ fontFamily: t.monoFont, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted }}>{retries > 0 ? `Retrying ${retries}/2...` : "Generating..."}</span>
           <style>{`@keyframes px-spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
       <img
+        key={retries}
         src={url}
         alt={label}
+        referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: loaded ? "block" : "none", transition: "opacity 0.5s ease", opacity: loaded ? 1 : 0 }}
+        onError={handleError}
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: loaded ? "block" : "none", opacity: loaded ? 1 : 0, transition: "opacity 0.5s ease" }}
       />
     </div>
   );
