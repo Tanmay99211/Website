@@ -73,98 +73,57 @@ function Reveal({ children, delay = 0 }) {
   return <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(32px)", transition: `opacity 0.65s ${delay}s ease, transform 0.65s ${delay}s ease` }}>{children}</div>;
 }
 
-// Prompt map — every ImgBox label gets a rich AI prompt
-const PROMPTS = {
-  // DeepTech
-  "Flagship Drone / Hero Shot":
-    "cinematic professional photo of a sleek black quadcopter drone hovering in golden hour sky above Indian cityscape, aerospace engineering, dramatic lighting, ultra sharp, 4k",
-  "Prototype Photo":
-    "close up photo of a carbon fiber drone prototype on workshop table with electronic components, PCB circuit board, tools, blue LED glow, dark industrial background",
-  "SkyAlert UAV":
-    "orange and black emergency response drone flying over disaster zone at dusk, warning lights blinking, cinematic aerial photography, dramatic sky",
-  "UAV Design / In-house Development":
-    "top down engineering blueprint view of drone airframe CAD design on dark desk with laptop showing 3D model, aerospace startup lab, blue accent lighting",
-  "Logistics Drone / Prototype Photo":
-    "white delivery drone with payload box flying over Indian urban neighbourhood, blue sky, professional product photography, sharp details",
-  "SkyAlert Drone in Operation":
-    "red alert drone hovering over flooded Indian village at night with bright search light beam, emergency response, cinematic, moody lighting",
-  "PCB / Flight Controller Concept":
-    "macro photo of green circuit board flight controller with microchips and soldering, blue and cyan LED glow, dark background, ultra sharp detail",
-  "Modular UAV CAD Render":
-    "exploded view 3D render of modular drone with detachable payload arms and swappable modules, dark background, electric blue highlights, technical illustration style",
-  // EdTech
-  "Students Building Drone / Workshop Photo":
-    "Indian school students aged 12 to 16 assembling a drone in a bright classroom workshop, smiling, colorful components on desks, educational STEM activity, natural light",
-  "Classroom Session":
-    "enthusiastic Indian teacher explaining drone parts to attentive school students in modern classroom, projector showing drone diagram, warm lighting",
-  "School Event":
-    "school science exhibition with drone display, excited Indian students and parents gathered around UAV model, colorful banners, bright indoor lighting",
-  "Hands-on Workshop / Students with UAV":
-    "group of happy Indian school children holding a completed drone they built themselves, outdoors on school grounds, sunny day, proud smiles, STEM education",
-  "Workshop / Event Photo":
-    "PrarambhX drone workshop at Indian school, students in activity, instructor guiding, colorful educational posters on wall, bright and cheerful atmosphere",
-  "Build-a-Drone Workshop":
-    "Indian students soldering and assembling mini drones on desks, focused expressions, components spread out, educational makerspace environment, warm lighting",
-  "Drone Programming Workshop":
-    "teenage Indian students programming drones on laptops with small drone hovering nearby, coding bootcamp style, modern classroom, tech education",
-  "STEM Aerospace Module":
-    "school students launching a small drone outdoors in schoolyard, bright sunny day, teacher supervising, excitement and learning atmosphere, India",
-  "Drone Innovation Lab":
-    "modern drone innovation lab in Indian school with drones on display shelves, students exploring, colorful posters, professional educational setup",
-  "Drone Innovation Lab Setup":
-    "modern drone innovation lab in Indian school with drones on display shelves, students exploring, colorful posters, professional educational setup",
-  "Students Building Drone":
-    "Indian school students aged 12 to 16 assembling a quadcopter drone in bright classroom workshop, smiling, colorful components on desks, STEM activity, natural light",
-  "Students Coding on Laptop":
-    "teenage Indian students coding drone flight paths on laptops with small drone hovering nearby, modern classroom, tech education, focused expressions",
-  "STEM Classroom Session":
-    "enthusiastic Indian teacher explaining drone aerodynamics to attentive school students, projector showing UAV diagram, warm classroom lighting, engaged students",
-  "Workshop / Event Photo":
-    "PrarambhX drone workshop at Indian school, students assembling drones, instructor guiding, colorful educational posters on wall, bright cheerful atmosphere",
+// Pre-generated AI Image URLs for instant loading
+const AI_IMAGES = {
+  "Flagship Drone / Hero Shot": "https://image.pollinations.ai/prompt/cinematic%20professional%20photo%20of%20a%20sleek%20black%20quadcopter%20drone%20hovering%20in%20golden%20hour%20sky%20above%20Indian%20cityscape%2C%20aerospace%20engineering?width=800&height=600&nologo=true&seed=42",
+  "Prototype Photo": "https://image.pollinations.ai/prompt/close%20up%20photo%20of%20a%20carbon%20fiber%20drone%20prototype%20on%20workshop%20table%20with%20electronic%20components%2C%20PCB%20circuit%20board?width=800&height=600&nologo=true&seed=43",
+  "SkyAlert UAV": "https://image.pollinations.ai/prompt/orange%20and%20black%20emergency%20response%20drone%20flying%20over%20disaster%20zone%20at%20dusk%2C%20warning%20lights%20blinking?width=800&height=600&nologo=true&seed=44",
+  "UAV Design / In-house Development": "https://image.pollinations.ai/prompt/top%20down%20engineering%20blueprint%20view%20of%20drone%20airframe%20CAD%20design%20on%20dark%20desk%20with%20laptop%20showing%203D%20model?width=800&height=600&nologo=true&seed=45",
+  "Logistics Drone / Prototype Photo": "https://image.pollinations.ai/prompt/white%20delivery%20drone%20with%20payload%20box%20flying%20over%20Indian%20urban%20neighbourhood%2C%20blue%20sky?width=800&height=600&nologo=true&seed=46",
+  "SkyAlert Drone in Operation": "https://image.pollinations.ai/prompt/red%20alert%20drone%20hovering%20over%20flooded%20Indian%20village%20at%20night%20with%20bright%20search%20light%20beam?width=800&height=600&nologo=true&seed=47",
+  "PCB / Flight Controller Concept": "https://image.pollinations.ai/prompt/macro%20photo%20of%20green%20circuit%20board%20flight%20controller%20with%20microchips%20and%20soldering%2C%20blue%20and%20cyan%20LED%20glow?width=800&height=600&nologo=true&seed=48",
+  "Modular UAV CAD Render": "https://image.pollinations.ai/prompt/exploded%20view%203D%20render%20of%20modular%20drone%20with%20detachable%20payload%20arms%20and%20swappable%20modules?width=800&height=600&nologo=true&seed=49",
+  "Students Building Drone / Workshop Photo": "https://image.pollinations.ai/prompt/Indian%20school%20students%20aged%2012%20to%2016%20assembling%20a%20drone%20in%20a%20bright%20classroom%20workshop%2C%20smiling?width=800&height=600&nologo=true&seed=50",
+  "Classroom Session": "https://image.pollinations.ai/prompt/enthusiastic%20Indian%20teacher%20explaining%20drone%20parts%20to%20attentive%20school%20students%20in%20modern%20classroom?width=800&height=600&nologo=true&seed=51",
+  "School Event": "https://image.pollinations.ai/prompt/school%20science%20exhibition%20with%20drone%20display%2C%20excited%20Indian%20students%20and%20parents%20gathered%20around%20UAV%20model?width=800&height=600&nologo=true&seed=52",
+  "Hands-on Workshop / Students with UAV": "https://image.pollinations.ai/prompt/group%20of%20happy%20Indian%20school%20children%20holding%20a%20completed%20drone%20they%20built%20themselves%2C%20outdoors?width=800&height=600&nologo=true&seed=53",
+  "Workshop / Event Photo": "https://image.pollinations.ai/prompt/drone%20workshop%20at%20Indian%20school%2C%20students%20in%20activity%2C%20instructor%20guiding%2C%20colorful%20educational%20posters?width=800&height=600&nologo=true&seed=54",
+  "Build-a-Drone Workshop": "https://image.pollinations.ai/prompt/Indian%20students%20soldering%20and%20assembling%20mini%20drones%20on%20desks%2C%20focused%20expressions?width=800&height=600&nologo=true&seed=55",
+  "Drone Programming Workshop": "https://image.pollinations.ai/prompt/teenage%20Indian%20students%20programming%20drones%20on%20laptops%20with%20small%20drone%20hovering%20nearby?width=800&height=600&nologo=true&seed=56",
+  "STEM Aerospace Module": "https://image.pollinations.ai/prompt/school%20students%20launching%20a%20small%20drone%20outdoors%20in%20schoolyard%2C%20bright%20sunny%20day?width=800&height=600&nologo=true&seed=57",
+  "Drone Innovation Lab": "https://image.pollinations.ai/prompt/modern%20drone%20innovation%20lab%20in%20Indian%20school%20with%20drones%20on%20display%20shelves?width=800&height=600&nologo=true&seed=58",
+  "Drone Innovation Lab Setup": "https://image.pollinations.ai/prompt/modern%20drone%20innovation%20lab%20in%20Indian%20school%20with%20drones%20on%20display%20shelves?width=800&height=600&nologo=true&seed=58",
+  "Students Building Drone": "https://image.pollinations.ai/prompt/Indian%20school%20students%20aged%2012%20to%2016%20assembling%20a%20quadcopter%20drone%20in%20bright%20classroom%20workshop?width=800&height=600&nologo=true&seed=59",
+  "Students Coding on Laptop": "https://image.pollinations.ai/prompt/teenage%20Indian%20students%20coding%20drone%20flight%20paths%20on%20laptops%20with%20small%20drone%20hovering%20nearby?width=800&height=600&nologo=true&seed=60",
+  "STEM Classroom Session": "https://image.pollinations.ai/prompt/enthusiastic%20Indian%20teacher%20explaining%20drone%20aerodynamics%20to%20attentive%20school%20students?width=800&height=600&nologo=true&seed=61",
 };
 
 function ImgBox({ label, height = 200, t }) {
   const [loaded, setLoaded] = useState(false);
-  const [error,  setError]  = useState(false);
-
-  const prompt = PROMPTS[label] || `professional photo of ${label}, high quality, sharp`;
-  const seed   = label.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const [retries, setRetries] = useState(0);
-  // Use new gen.pollinations.ai endpoint
-  const url    = `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?width=800&height=${Math.round(height * 3)}&seed=${seed + retries}&nologo=true&model=flux`;
-
-  const handleError = () => {
-    if (retries < 2) {
-      setTimeout(() => { setLoaded(false); setRetries(r => r + 1); }, 2000);
-    } else {
-      setError(true);
-    }
-  };
-
+  const [error, setError] = useState(false);
+  const fallbackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(label)}?width=800&height=${Math.round(height * 3)}&nologo=true`;
+  const url = AI_IMAGES[label] || fallbackUrl;
   if (error) {
     return (
-      <div style={{ width: "100%", height, background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.07)", border: `1.5px dashed ${t.border}`, borderRadius: t.isET ? 14 : 0, display: "flex", alignItems: "center", justifyContent: "center", color: t.textMuted, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+      <div style={{ width: "100%", height, background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.07)", border: `1.5px dashed ${t.border}`, borderRadius: t.isET ? 14 : 0, display: "flex", alignItems: "center", justifyContent: "center", color: t.textMuted, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", textAlign: "center", padding: "10px" }}>
         {label}
       </div>
     );
   }
-
   return (
     <div style={{ width: "100%", height, borderRadius: t.isET ? 14 : 0, overflow: "hidden", position: "relative", background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.08)" }}>
       {!loaded && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <div style={{ width: 28, height: 28, border: `2px solid ${t.border}`, borderTop: `2px solid ${t.primary}`, borderRadius: "50%", animation: "px-spin 0.8s linear infinite" }} />
-          <span style={{ fontFamily: t.monoFont, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted }}>{retries > 0 ? `Retrying ${retries}/2...` : "Generating..."}</span>
           <style>{`@keyframes px-spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
       <img
-        key={retries}
         src={url}
         alt={label}
         referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
-        onError={handleError}
+        onError={() => setError(true)}
         style={{ width: "100%", height: "100%", objectFit: "cover", display: loaded ? "block" : "none", opacity: loaded ? 1 : 0, transition: "opacity 0.5s ease" }}
       />
     </div>
