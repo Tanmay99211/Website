@@ -73,15 +73,90 @@ function Reveal({ children, delay = 0 }) {
   return <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(32px)", transition: `opacity 0.65s ${delay}s ease, transform 0.65s ${delay}s ease` }}>{children}</div>;
 }
 
+// Prompt map — every ImgBox label gets a rich AI prompt
+const PROMPTS = {
+  // DeepTech
+  "Flagship Drone / Hero Shot":
+    "cinematic professional photo of a sleek black quadcopter drone hovering in golden hour sky above Indian cityscape, aerospace engineering, dramatic lighting, ultra sharp, 4k",
+  "Prototype Photo":
+    "close up photo of a carbon fiber drone prototype on workshop table with electronic components, PCB circuit board, tools, blue LED glow, dark industrial background",
+  "SkyAlert UAV":
+    "orange and black emergency response drone flying over disaster zone at dusk, warning lights blinking, cinematic aerial photography, dramatic sky",
+  "UAV Design / In-house Development":
+    "top down engineering blueprint view of drone airframe CAD design on dark desk with laptop showing 3D model, aerospace startup lab, blue accent lighting",
+  "Logistics Drone / Prototype Photo":
+    "white delivery drone with payload box flying over Indian urban neighbourhood, blue sky, professional product photography, sharp details",
+  "SkyAlert Drone in Operation":
+    "red alert drone hovering over flooded Indian village at night with bright search light beam, emergency response, cinematic, moody lighting",
+  "PCB / Flight Controller Concept":
+    "macro photo of green circuit board flight controller with microchips and soldering, blue and cyan LED glow, dark background, ultra sharp detail",
+  "Modular UAV CAD Render":
+    "exploded view 3D render of modular drone with detachable payload arms and swappable modules, dark background, electric blue highlights, technical illustration style",
+  // EdTech
+  "Students Building Drone / Workshop Photo":
+    "Indian school students aged 12 to 16 assembling a drone in a bright classroom workshop, smiling, colorful components on desks, educational STEM activity, natural light",
+  "Classroom Session":
+    "enthusiastic Indian teacher explaining drone parts to attentive school students in modern classroom, projector showing drone diagram, warm lighting",
+  "School Event":
+    "school science exhibition with drone display, excited Indian students and parents gathered around UAV model, colorful banners, bright indoor lighting",
+  "Hands-on Workshop / Students with UAV":
+    "group of happy Indian school children holding a completed drone they built themselves, outdoors on school grounds, sunny day, proud smiles, STEM education",
+  "Workshop / Event Photo":
+    "PrarambhX drone workshop at Indian school, students in activity, instructor guiding, colorful educational posters on wall, bright and cheerful atmosphere",
+  "Build-a-Drone Workshop":
+    "Indian students soldering and assembling mini drones on desks, focused expressions, components spread out, educational makerspace environment, warm lighting",
+  "Drone Programming Workshop":
+    "teenage Indian students programming drones on laptops with small drone hovering nearby, coding bootcamp style, modern classroom, tech education",
+  "STEM Aerospace Module":
+    "school students launching a small drone outdoors in schoolyard, bright sunny day, teacher supervising, excitement and learning atmosphere, India",
+  "Drone Innovation Lab":
+    "modern drone innovation lab in Indian school with drones on display shelves, students exploring, colorful posters, professional educational setup",
+  "Drone Innovation Lab Setup":
+    "modern drone innovation lab in Indian school with drones on display shelves, students exploring, colorful posters, professional educational setup",
+  "Students Building Drone":
+    "Indian school students aged 12 to 16 assembling a quadcopter drone in bright classroom workshop, smiling, colorful components on desks, STEM activity, natural light",
+  "Students Coding on Laptop":
+    "teenage Indian students coding drone flight paths on laptops with small drone hovering nearby, modern classroom, tech education, focused expressions",
+  "STEM Classroom Session":
+    "enthusiastic Indian teacher explaining drone aerodynamics to attentive school students, projector showing UAV diagram, warm classroom lighting, engaged students",
+  "Workshop / Event Photo":
+    "PrarambhX drone workshop at Indian school, students assembling drones, instructor guiding, colorful educational posters on wall, bright cheerful atmosphere",
+};
+
 function ImgBox({ label, height = 200, t }) {
+  const [loaded, setLoaded] = useState(false);
+  const [error,  setError]  = useState(false);
+
+  const prompt = PROMPTS[label] || `professional photo of ${label}, high quality, sharp`;
+  const seed   = label.split("").reduce((a, c) => a + c.charCodeAt(0), 0); // stable seed per label
+  const url    = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=${Math.round(height * 3)}&seed=${seed}&nologo=true`;
+
+  if (error) {
+    // Fallback to placeholder if image fails
+    return (
+      <div style={{ width: "100%", height, background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.07)", border: `1.5px dashed ${t.border}`, borderRadius: t.isET ? 14 : 0, display: "flex", alignItems: "center", justifyContent: "center", color: t.textMuted, fontFamily: t.monoFont, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+        {label}
+      </div>
+    );
+  }
+
   return (
-    <div style={{ width: "100%", height, background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.07)", border: `1.5px dashed ${t.border}`, borderRadius: t.isET ? 14 : 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: t.textMuted, fontFamily: t.monoFont, fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase" }}>
-      <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
-        <rect x="1" y="1" width="30" height="30" rx={t.isET ? 6 : 0} stroke={t.primary} strokeWidth="1.2" strokeDasharray="4 3" opacity="0.5" />
-        <circle cx="11" cy="12" r="3" stroke={t.primary} strokeWidth="1.2" opacity="0.5" />
-        <path d="M2 24 L9 17 L15 22 L21 15 L30 24" stroke={t.primary} strokeWidth="1.2" strokeLinejoin="round" opacity="0.5" />
-      </svg>
-      {label}
+    <div style={{ width: "100%", height, borderRadius: t.isET ? 14 : 0, overflow: "hidden", position: "relative", background: t.isET ? "rgba(255,107,26,0.06)" : "rgba(26,60,255,0.08)" }}>
+      {/* Shimmer loading state */}
+      {!loaded && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
+          <div style={{ width: 28, height: 28, border: `2px solid ${t.border}`, borderTop: `2px solid ${t.primary}`, borderRadius: "50%", animation: "px-spin 0.8s linear infinite" }} />
+          <span style={{ fontFamily: t.monoFont, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: t.textMuted }}>Generating...</span>
+          <style>{`@keyframes px-spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
+      <img
+        src={url}
+        alt={label}
+        onLoad={() => setLoaded(true)}
+        onError={() => setError(true)}
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: loaded ? "block" : "none", transition: "opacity 0.5s ease", opacity: loaded ? 1 : 0 }}
+      />
     </div>
   );
 }
@@ -441,7 +516,7 @@ function DeepTechSite({ t, mob }) {
             ))}
           </div>
         </Reveal>
-        {!mob && <Reveal delay={0.15}><ImgBox label="UAV Design / In-house Development" height={280} t={t} /></Reveal>}
+        <Reveal delay={0.15}><ImgBox label="UAV Design / In-house Development" height={280} t={t} /></Reveal>
       </section>
 
       {/* ── PRODUCTS ── */}
@@ -533,7 +608,7 @@ function DProductCard({ p, t, mob }) {
       <div style={{ display: "inline-block", fontFamily: t.monoFont, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 8px", border: `1px solid ${p.sc}`, color: p.sc, marginBottom: 10, alignSelf: "flex-start" }}>{p.status}</div>
       <div style={{ fontFamily: t.font, fontWeight: 700, fontSize: mob ? "1.1rem" : "1.3rem", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 8 }}>{p.title}</div>
       <div style={{ fontSize: mob ? "0.82rem" : "0.86rem", lineHeight: 1.65, color: t.textMuted, marginBottom: mob ? 12 : 18 }}>{p.body}</div>
-      {!mob && <ImgBox label={p.img} height={150} t={t} />}
+      <ImgBox label={p.img} height={150} t={t} />
     </div>
   );
 }
@@ -614,7 +689,7 @@ function EdTechSite({ t, mob }) {
       {/* ── ABOUT ── */}
       <section id="about" style={{ padding: `${SP} ${P}`, borderTop: `1px solid ${t.border}` }}>
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: mob ? 28 : 60, alignItems: "center" }}>
-          {!mob && <Reveal><ImgBox label="Hands-on Workshop / Students with UAV" height={300} t={t} /></Reveal>}
+          <Reveal><ImgBox label="Hands-on Workshop / Students with UAV" height={300} t={t} /></Reveal>
           <Reveal delay={mob ? 0 : 0.15}>
             <ELabel t={t}>Why EdTech?</ELabel>
             <h2 style={EH2(t, mob)}>The Skill Gap<br />We're Closing</h2>
@@ -693,7 +768,7 @@ function EdTechSite({ t, mob }) {
                 </div>
               ))}
             </div>
-            {!mob && <ImgBox label="Workshop / Event Photo" height={150} t={t} />}
+            <ImgBox label="Workshop / Event Photo" height={150} t={t} />
           </Reveal>
         </div>
       </section>
@@ -732,7 +807,7 @@ function EWorkshopCard({ w, t, mob }) {
       </div>
       <div style={{ fontFamily: t.font, fontWeight: 800, fontSize: mob ? "1.05rem" : "1.25rem", marginBottom: 8, color: t.text }}>{w.title}</div>
       <div style={{ fontSize: mob ? "0.82rem" : "0.85rem", lineHeight: 1.65, color: t.textMuted }}>{w.body}</div>
-      {!mob && <div style={{ marginTop: 14 }}><ImgBox label={w.img} height={130} t={t} /></div>}
+      <div style={{ marginTop: 14 }}><ImgBox label={w.img} height={130} t={t} /></div>
     </div>
   );
 }
