@@ -133,7 +133,7 @@ function ImgBox({ label, height = 200, t }) {
 
 /* ── GLIDING TOGGLE ── */
 function ThemeToggle({ theme, onSwitch, mob = false }) {
-  const activeIdx = theme.id === "deeptech" ? 0 : 1;
+  const activeIdx = theme.id === "edtech" ? 0 : 1;
   const [pillPos, setPillPos]     = useState(activeIdx);   // 0 = left, 1 = right
   const [hovered, setHovered]     = useState(null);
   const btnRefs                   = [useRef(null), useRef(null)];
@@ -203,7 +203,7 @@ function ThemeToggle({ theme, onSwitch, mob = false }) {
   };
 
   useEffect(() => {
-    const newIdx = theme.id === "deeptech" ? 0 : 1;
+    const newIdx = theme.id === "edtech" ? 0 : 1;
     setPillPos(newIdx);
     // Small delay so DOM has settled after theme switch
     requestAnimationFrame(() => measurePill(newIdx));
@@ -908,29 +908,57 @@ function GlobalStyles({ t }) {
         .px-nav-bar { padding: 10px 18px !important; }
         .px-toggle-bar { padding: 8px 16px !important; }
         .px-btn-label { padding: 9px 18px !important; font-size: 0.62rem !important; letter-spacing: 0.12em !important; }
-        section {
+
+        /* NUCLEAR: kill ALL vertical spacing that creates blank gaps */
+        section, div[style], main > div, main > section {
           min-height: unset !important;
           height: auto !important;
-          justify-content: flex-start !important;
-          padding-top: 32px !important;
-          padding-bottom: 48px !important;
-          padding-left: 18px !important;
-          padding-right: 18px !important;
         }
-        main { padding-top: 108px !important; }
-        [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-        [style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
-        [style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
-        [style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr !important; }
+        section {
+          justify-content: flex-start !important;
+          padding: 28px 18px 40px !important;
+        }
+        main { padding-top: 105px !important; }
+
+        /* Grids → single column */
+        [style*="grid-template-columns: 1fr 1fr"],
+        [style*="grid-template-columns: repeat(2"],
+        [style*="grid-template-columns: repeat(3"],
+        [style*="grid-template-columns: repeat(4"] {
+          grid-template-columns: 1fr !important;
+          gap: 14px !important;
+        }
+
+        /* Flex rows → columns */
+        [style*="flex-direction: row"],
+        [style*="flexDirection: row"] {
+          flex-direction: column !important;
+        }
+
+        /* Hide decorative elements */
         .px-hero-float, .px-ghost-text, .px-blob { display: none !important; }
-        h1 { font-size: clamp(36px, 10vw, 68px) !important; line-height: 1.05 !important; }
-        h2 { font-size: clamp(24px, 7vw, 44px) !important; }
+
+        /* Side padding on all containers */
+        [style*="padding: \"160px"],
+        [style*="padding: \"100px"] {
+          padding: 28px 18px 40px !important;
+        }
+
+        h1 { font-size: clamp(34px, 10vw, 64px) !important; line-height: 1.05 !important; }
+        h2 { font-size: clamp(22px, 7vw, 42px) !important; }
+
         footer { flex-direction: column !important; padding: 20px 18px !important; gap: 10px !important; }
         footer > div:last-child { text-align: left !important; }
+
+        /* Absolute positioned elements inside hero — disable */
+        section > div[style*="position: \"absolute\""],
+        section > div[style*="position: absolute"] {
+          display: none !important;
+        }
       }
       @media (max-width: 400px) {
         .px-btn-label { padding: 8px 12px !important; font-size: 0.58rem !important; }
-        h1 { font-size: 32px !important; }
+        h1 { font-size: 30px !important; }
       }
     `}</style>
   );
