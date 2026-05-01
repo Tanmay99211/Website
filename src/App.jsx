@@ -299,8 +299,8 @@ function ThemeToggle({ theme, onSwitch, mob = false }) {
 
           {/* Buttons */}
           {[
-            { id: "deeptech", label: "DeepTech" },
             { id: "edtech",   label: "EdTech"   },
+            { id: "deeptech", label: "DeepTech" },
           ].map(({ id, label }, idx) => {
             const active = theme.id === id;
             const isHov  = hovered === idx;
@@ -900,6 +900,38 @@ function GlobalStyles({ t }) {
       .px-btn-label { transition: color 0.38s ease, transform 0.2s ease; }
       .px-btn-label:hover { transform: scale(1.04); }
       .px-btn-label:active { transform: scale(0.97); }
+    
+
+      /* ── MOBILE PORTRAIT ── */
+      @media (max-width: 768px) {
+        .px-nav-links { display: none !important; }
+        .px-nav-bar { padding: 10px 18px !important; }
+        .px-toggle-bar { padding: 8px 16px !important; }
+        .px-btn-label { padding: 9px 18px !important; font-size: 0.62rem !important; letter-spacing: 0.12em !important; }
+        section {
+          min-height: unset !important;
+          height: auto !important;
+          justify-content: flex-start !important;
+          padding-top: 32px !important;
+          padding-bottom: 48px !important;
+          padding-left: 18px !important;
+          padding-right: 18px !important;
+        }
+        main { padding-top: 108px !important; }
+        [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+        [style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
+        [style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
+        [style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr !important; }
+        .px-hero-float, .px-ghost-text, .px-blob { display: none !important; }
+        h1 { font-size: clamp(36px, 10vw, 68px) !important; line-height: 1.05 !important; }
+        h2 { font-size: clamp(24px, 7vw, 44px) !important; }
+        footer { flex-direction: column !important; padding: 20px 18px !important; gap: 10px !important; }
+        footer > div:last-child { text-align: left !important; }
+      }
+      @media (max-width: 400px) {
+        .px-btn-label { padding: 8px 12px !important; font-size: 0.58rem !important; }
+        h1 { font-size: 32px !important; }
+      }
     `}</style>
   );
 }
@@ -950,7 +982,7 @@ function playWhoosh(toEdtech) {
    APP
 ══════════════════════════════════════════ */
 export default function App() {
-  const [themeId, setThemeId] = useState("deeptech");
+  const [themeId, setThemeId] = useState("edtech");
   const [fading,  setFading]  = useState(false);
   const mob = useMobile();
   const t = THEMES[themeId];
