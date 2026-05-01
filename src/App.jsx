@@ -433,7 +433,7 @@ function DeepTechSite({ t, mob }) {
   return (
     <>
       {/* ── HERO ── */}
-      <section style={{ minHeight: mob ? "auto" : "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: mob ? `32px ${P} 48px` : `160px ${P} 80px`, position: "relative", overflow: "hidden" }}>
+      <section className="px-hero" style={{ minHeight: mob ? "auto" : "100vh", display: "flex", flexDirection: "column", justifyContent: mob ? "flex-start" : "center", padding: mob ? `28px ${P} 40px` : `160px ${P} 80px`, position: "relative", overflow: "hidden" }}>
         {!mob && <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontFamily: t.font, fontWeight: 900, fontSize: "clamp(100px,20vw,280px)", color: "rgba(26,60,255,0.04)", whiteSpace: "nowrap", pointerEvents: "none", letterSpacing: "-0.03em" }}>UAV</div>}
 
         <DLabel t={t} mob={mob}>// Aerospace · Drone Technology · Component Manufacturing</DLabel>
@@ -616,7 +616,7 @@ function EdTechSite({ t, mob }) {
   return (
     <>
       {/* ── HERO ── */}
-      <section style={{ minHeight: mob ? "auto" : "100vh", display: "flex", flexDirection: mob ? "column" : "row", alignItems: mob ? "flex-start" : "center", padding: mob ? `32px ${P} 48px` : `160px ${P} 80px`, background: `linear-gradient(135deg, ${t.bg} 55%, #fff5e8 100%)`, position: "relative", overflow: "hidden", gap: mob ? 28 : 0 }}>
+      <section className="px-hero" style={{ minHeight: mob ? "auto" : "100vh", display: "flex", flexDirection: mob ? "column" : "row", alignItems: mob ? "flex-start" : "center", justifyContent: mob ? "flex-start" : "center", padding: mob ? `28px ${P} 40px` : `160px ${P} 80px`, background: `linear-gradient(135deg, ${t.bg} 55%, #fff5e8 100%)`, position: "relative", overflow: "hidden", gap: mob ? 28 : 0 }}>
         {!mob && <>
           <div style={{ position: "absolute", top: -100, right: -100, width: 450, height: 450, borderRadius: "50%", background: "rgba(255,107,26,0.07)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", bottom: -60, left: "28%", width: 300, height: 300, borderRadius: "50%", background: "rgba(255,184,0,0.09)", pointerEvents: "none" }} />
@@ -901,6 +901,19 @@ function GlobalStyles({ t }) {
       .px-btn-label:hover { transform: scale(1.04); }
       .px-btn-label:active { transform: scale(0.97); }
     
+
+      /* ── HERO: always auto-height on mobile, CSS wins over JS first-render ── */
+      @media (max-width: 768px) {
+        .px-hero {
+          min-height: unset !important;
+          height: auto !important;
+          justify-content: flex-start !important;
+          padding-top: 28px !important;
+          padding-bottom: 40px !important;
+          padding-left: 18px !important;
+          padding-right: 18px !important;
+        }
+      }
 
       /* ── MOBILE PORTRAIT ── */
       @media (max-width: 768px) {
