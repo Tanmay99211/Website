@@ -637,7 +637,7 @@ function EdTechSite({ t, mob }) {
             <EBtnOut t={t} href="#contact" mob={mob}>Book a Workshop</EBtnOut>
           </div>
           <div style={{ display: "flex", gap: mob ? 24 : 30, marginTop: mob ? 28 : 48, flexWrap: "wrap" }}>
-            {[{ n: "6", l: "Schools Reached" }, { n: "₹2.65L", l: "Revenue Generated" }, { n: "100s", l: "Students Impacted" }].map(s => (
+            {[{ n: "6", l: "JNVs Served" }, { n: "2000+", l: "Students Inspired" }, { n: "8", l: "Events Conducted" }].map(s => (
               <div key={s.n} style={{ textAlign: "center" }}>
                 <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "1.8rem" : "2.3rem", color: t.primary, lineHeight: 1 }}>{s.n}</div>
                 <div style={{ fontFamily: t.monoFont, fontSize: mob ? "0.5rem" : "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", color: t.textMuted, marginTop: 4 }}>{s.l}</div>
@@ -687,6 +687,45 @@ function EdTechSite({ t, mob }) {
         </div>
       </section>
 
+      {/* ── PM SHRI SECTION ── */}
+      <section style={{ padding: `${SP} ${P}`, borderTop: `1px solid ${t.border}`, background: `linear-gradient(135deg, rgba(255,107,26,0.06) 0%, rgba(255,184,0,0.07) 100%)` }}>
+        <Reveal>
+          <ELabel t={t}>PM SHRI Partnership</ELabel>
+          <h2 style={EH2(t, mob)}>Your One-Stop Partner<br />for <span style={{ color: t.primary }}>All PM SHRI Activities</span></h2>
+          <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted, maxWidth: 620 }}>
+            PrarambhX is the dedicated implementation partner for PM SHRI schools — covering every programme activity, supply requirement, and STEM initiative under a single empanelled vendor relationship.
+          </p>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "repeat(3, 1fr)", gap: mob ? 12 : 16, marginTop: mob ? 24 : 44 }}>
+          {[
+            { icon: "🏫", title: "ATL & Innovation Activities", body: "End-to-end delivery of Atal Tinkering Lab programmes — kits, curriculum, facilitation and documentation — all GeM-compliant." },
+            { icon: "📦", title: "STEM Supplies & Kits", body: "Sourcing and supply of all science, robotics and drone kits required under PM SHRI mandates — audit-safe invoicing included." },
+            { icon: "📋", title: "Vigyan Jyoti Programme", body: "Structured content and resource delivery aligned with the Vigyan Jyoti STEM initiative for girl students in PM SHRI schools." },
+            { icon: "🔬", title: "Science & Maths Circles", body: "Olympiad preparation, Science Circle and Mathematics Circle activity support with trained resource persons." },
+            { icon: "🌐", title: "IKS & NEP Activities", body: "Indian Knowledge Systems and NEP 2020-aligned experiential learning modules delivered to PM SHRI classrooms." },
+            { icon: "✅", title: "RO-Compliant Documentation", body: "Every engagement comes with full RO and NVS-compliant documentation — proposals, delivery reports and utilisation certificates." },
+          ].map((item, i) => (
+            <Reveal key={item.title} delay={i * 0.07}>
+              <div style={{ padding: mob ? "18px 16px" : "24px 20px", background: t.bgCard, border: `1.5px solid ${t.border}`, borderRadius: 14, height: "100%" }}>
+                <div style={{ fontSize: mob ? "1.7rem" : "2rem", marginBottom: 10 }}>{item.icon}</div>
+                <div style={{ fontFamily: t.font, fontWeight: 800, fontSize: mob ? "0.95rem" : "1.05rem", marginBottom: 7, color: t.text }}>{item.title}</div>
+                <div style={{ fontSize: mob ? "0.78rem" : "0.83rem", lineHeight: 1.65, color: t.textMuted }}>{item.body}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.2}>
+          <div style={{ marginTop: mob ? 24 : 36, padding: mob ? "18px 20px" : "24px 30px", background: t.bgCard, border: `2px solid ${t.primary}`, borderRadius: 14, display: "flex", flexDirection: mob ? "column" : "row", alignItems: mob ? "flex-start" : "center", gap: mob ? 14 : 24 }}>
+            <div style={{ fontSize: mob ? "2rem" : "2.4rem", flexShrink: 0 }}>🏆</div>
+            <div>
+              <div style={{ fontFamily: t.font, fontWeight: 800, fontSize: mob ? "1rem" : "1.15rem", color: t.text, marginBottom: 5 }}>Already Serving PM SHRI JNVs Across Maharashtra & Goa</div>
+              <p style={{ fontSize: mob ? "0.82rem" : "0.88rem", lineHeight: 1.68, color: t.textMuted }}>PrarambhX is a DPIIT-recognised startup and registered GeM vendor — meeting all procurement requirements for PM SHRI schools. Our JNV alumni roots give us direct community trust that no external vendor can replicate.</p>
+            </div>
+            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: t.primary, color: "#fff", fontFamily: t.bodyFont, fontSize: "0.84rem", fontWeight: 700, padding: "11px 22px", textDecoration: "none", borderRadius: 999, whiteSpace: "nowrap", flexShrink: 0 }}>Partner With Us →</a>
+          </div>
+        </Reveal>
+      </section>
+
       {/* ── STUDENT OUTCOMES ── */}
       <section style={{ padding: `${SP} ${P}`, borderTop: `1px solid ${t.border}` }}>
         <Reveal>
@@ -716,7 +755,7 @@ function EdTechSite({ t, mob }) {
         <Reveal>
           <ELabel t={t}>Our Reach</ELabel>
           <h2 style={EH2(t, mob)}>Schools We've<br />Worked With</h2>
-          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 480 }}>PrarambhX has delivered paid programs across 6 Jawahar Navodaya Vidyalayas, generating ₹2,65,854 in EdTech revenue.</p>
+          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 480 }}>PrarambhX has delivered programs across 6 Jawahar Navodaya Vidyalayas — inspiring 2,000+ students through 8 hands-on events across Maharashtra and Goa.</p>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: mob ? 28 : 48, marginTop: mob ? 24 : 50, alignItems: "start" }}>
           <Reveal>
@@ -731,7 +770,7 @@ function EdTechSite({ t, mob }) {
           </Reveal>
           <Reveal delay={0.15}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
-              {[{ n: "6", l: "Schools\nServed" }, { n: "₹2.65L", l: "Revenue\nGenerated" }, { n: "100%", l: "Paid\nWorkshops" }, { n: "5+", l: "States\nCovered" }].map((s, i) => (
+              {[{ n: "6", l: "JNVs\nServed" }, { n: "2000+", l: "Students\nInspired" }, { n: "8", l: "Events\nConducted" }, { n: "100%", l: "PM SHRI\nAligned" }].map((s, i) => (
                 <div key={s.n} style={{ padding: mob ? "18px 14px" : "22px 16px", background: i % 2 === 0 ? t.primary : t.bgCard, borderRadius: 12, border: `1px solid ${t.border}`, textAlign: "center" }}>
                   <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "1.9rem" : "2.4rem", color: i % 2 === 0 ? "#fff" : t.primary, lineHeight: 1 }}>{s.n}</div>
                   <div style={{ fontFamily: t.monoFont, fontSize: mob ? "0.48rem" : "0.56rem", letterSpacing: "0.1em", textTransform: "uppercase", color: i % 2 === 0 ? "rgba(255,255,255,0.6)" : t.textMuted, marginTop: 5, whiteSpace: "pre-line", lineHeight: 1.6 }}>{s.l}</div>
