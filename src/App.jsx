@@ -425,9 +425,9 @@ function DeepTechSite({ t, mob }) {
 
   const products = [
     { status: "POC Stage", sc: "#ffb800", title: "Logistics UAV Platform", body: "Mission-specific payload release for last-mile logistics and emergency supply drops across Indian urban terrain.", img: "Logistics Drone / Prototype Photo" },
-    { status: "POC Performed", sc: "#00ff88", title: "SkyAlert — Public Safety UAV", body: "UAV-based alert system for real-time info during natural disasters. Funded by La Trobe University & PCCOE Pune (INR 52,000).", img: "SkyAlert Drone in Operation" },
+    { status: "POC Performed", sc: "#00ff88", title: "SkyAlert: Public Safety UAV", body: "UAV-based alert system for real-time info during natural disasters. Funded by La Trobe University & PCCOE Pune (INR 52,000).", img: "SkyAlert Drone in Operation" },
     { status: "Schematic Stage", sc: t.accent, title: "Smart Flight Controller", body: "In-house flight controller with OLED display showing altitude, GPS, battery voltage and flight modes.", img: "PCB / Flight Controller Concept" },
-    { status: "CAD Design Stage", sc: t.accent, title: "Modular UAV Architecture", body: "Interchangeable modules for airframe, propulsion, avionics and payload — faster mission adaptability.", img: "Modular UAV CAD Render" },
+    { status: "CAD Design Stage", sc: t.accent, title: "Modular UAV Architecture", body: "Interchangeable modules for airframe, propulsion, avionics and payload, for faster mission adaptability.", img: "Modular UAV CAD Render" },
   ];
 
   return (
@@ -443,7 +443,7 @@ function DeepTechSite({ t, mob }) {
           Platform
         </h1>
         <p style={{ marginTop: mob ? 16 : 26, fontSize: mob ? "0.9rem" : "1.05rem", fontWeight: 300, lineHeight: 1.7, maxWidth: mob ? "100%" : 490, color: t.textMuted }}>
-          Mission-specific drone solutions engineered for India's dense urban airspace — from payload delivery to public safety emergency response.
+          Mission-specific drone solutions engineered for India's dense urban airspace, from payload delivery to public safety emergency response.
         </p>
         <div style={{ marginTop: mob ? 24 : 40, display: "flex", gap: 12, flexWrap: "wrap" }}>
           <DBtn t={t} href="#products" mob={mob}>Explore Products →</DBtn>
@@ -477,7 +477,7 @@ function DeepTechSite({ t, mob }) {
         <Reveal>
           <DLabel t={t} mob={mob}>About DeepTech Vertical</DLabel>
           <h2 style={DH2(t, mob)}>UAV Solutions<br />Built for India</h2>
-          <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted }}>India's UAV market needs platforms designed from the ground up for Indian conditions — dense urban layouts, complex airspace, and diverse missions.</p>
+          <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted }}>India's UAV market needs platforms designed from the ground up for Indian conditions: dense urban layouts, complex airspace, and diverse missions.</p>
           <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 10 }}>
             {["Mission-specific design & payload integration", "In-house flight controller architecture", "Modular airframe for rapid mission adaptability", "Designed for Indian urban airspace & regulations"].map(f => (
               <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: mob ? "0.82rem" : "0.88rem", color: t.textMuted }}>
@@ -522,7 +522,7 @@ function DeepTechSite({ t, mob }) {
         <Reveal>
           <DLabel t={t} mob={mob}>Competition Record</DLabel>
           <h2 style={DH2(t, mob)}>Proven on the<br />Global Stage</h2>
-          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 500 }}>Our engineering team has ranked at the highest levels — validating PrarambhX's technical capabilities on the world stage.</p>
+          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 500 }}>Our engineering team has ranked at the highest levels, validating PrarambhX's technical capabilities on the world stage.</p>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr 1fr" : "repeat(4, 1fr)", gap: mob ? 10 : 3, marginTop: mob ? 24 : 50 }}>
           {[
@@ -607,8 +607,8 @@ function EdTechSite({ t, mob }) {
   const workshops = [
     { emoji: "🔧", title: "Build-a-Drone Workshop", dur: "1 Day", lvl: "Grade 6–12", body: "Students assemble a working quadcopter, learning aerodynamics, electronics and flight physics through hands-on building.", img: "Students Building Drone" },
     { emoji: "🖥️", title: "Drone Programming & Coding", dur: "1–2 Days", lvl: "Grade 8–12", body: "Students code autonomous flight paths, learn sensor integration and basic CS concepts through drone programming.", img: "Students Coding on Laptop" },
-    { emoji: "🚀", title: "STEM Aerospace Module", dur: "Half Day", lvl: "Grade 5–10", body: "Structured curriculum covering physics of flight, UAV history and aeronautical engineering basics — school-aligned.", img: "STEM Classroom Session" },
-    { emoji: "🏫", title: "Drone Innovation Lab", dur: "Annual Program", lvl: "Institution-wide", body: "Turnkey drone lab — hardware kits, curriculum, instructor training and annual support. Aligned with ATL initiatives.", img: "Drone Innovation Lab Setup" },
+    { emoji: "🚀", title: "STEM Aerospace Module", dur: "Half Day", lvl: "Grade 5–10", body: "Structured curriculum covering physics of flight, UAV history and aeronautical engineering basics, school-aligned.", img: "STEM Classroom Session" },
+    { emoji: "🏫", title: "Drone Innovation Lab", dur: "Annual Program", lvl: "Institution-wide", body: "Turnkey drone lab: hardware kits, curriculum, instructor training and annual support. Aligned with ATL initiatives.", img: "Drone Innovation Lab Setup" },
   ];
 
   const schools = ["PM SHRI JNV Pune, Maharashtra", "PM SHRI JNV Satara, Maharashtra", "PM SHRI JNV Jalgaon, Maharashtra", "PM SHRI JNV Parbhani, Maharashtra", "PM SHRI JNV South Goa", "PM SHRI JNV Chh. Sambhajinagar, MH"];
@@ -624,17 +624,25 @@ function EdTechSite({ t, mob }) {
         <div style={{ flex: 1, maxWidth: mob ? "100%" : 560 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(255,107,26,0.1)", border: "1px solid rgba(255,107,26,0.22)", borderRadius: 999, padding: "5px 14px", marginBottom: mob ? 14 : 20 }}>
             <span>✦</span>
-            <span style={{ fontFamily: t.monoFont, fontSize: mob ? "0.5rem" : "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: t.primary }}>UAV Workshops · STEM Programs · School Labs</span>
+            <span style={{ fontFamily: t.monoFont, fontSize: mob ? "0.5rem" : "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: t.primary }}>PM SHRI Implementation Partner · ATL · Vigyan Jyoti · Science Circles</span>
           </div>
           <h1 style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "clamp(40px,12vw,60px)" : "clamp(48px,8vw,104px)", lineHeight: 0.95, letterSpacing: "-0.02em", marginBottom: mob ? 14 : 22 }}>
-            <span style={{ color: t.primary }}>Hands-On</span><br />Drone<br /><span style={{ color: t.accent }}>Education</span>
+            <span style={{ color: t.primary }}>One Partner</span><br />for Every<br /><span style={{ color: t.accent }}>PM SHRI Activity</span>
           </h1>
-          <p style={{ fontSize: mob ? "0.9rem" : "1.05rem", lineHeight: 1.74, color: t.textMuted, maxWidth: mob ? "100%" : 460, marginBottom: mob ? 24 : 38 }}>
-            Making drone education accessible to every student across India — structured UAV workshops and STEM curriculum delivered directly to schools.
+          <p style={{ fontSize: mob ? "0.9rem" : "1.05rem", lineHeight: 1.74, color: t.textMuted, maxWidth: mob ? "100%" : 480, marginBottom: mob ? 20 : 28 }}>
+            From ATL and Vigyan Jyoti to Science Circles and hands-on drone workshops, PrarambhX plans, procures, and executes all your PM SHRI activities end to end. Fully documented, within your sanctioned funds, at zero extra cost.
           </p>
+          {/* Value strip */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: mob ? 8 : 10, marginBottom: mob ? 24 : 34 }}>
+            {["Same Funds", "Full Execution", "Zero Extra Cost"].map((v, i) => (
+              <span key={v} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: t.monoFont, fontSize: mob ? "0.58rem" : "0.66rem", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700, color: t.primary, background: "rgba(255,107,26,0.09)", border: "1px solid rgba(255,107,26,0.22)", borderRadius: 999, padding: mob ? "5px 11px" : "6px 14px" }}>
+                <span style={{ color: t.accent }}>{i === 2 ? "₹0" : "✓"}</span>{v}
+              </span>
+            ))}
+          </div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <EBtn t={t} href="#products" mob={mob}>See Our Workshops →</EBtn>
-            <EBtnOut t={t} href="#contact" mob={mob}>Book a Workshop</EBtnOut>
+            <EBtn t={t} href="#products" mob={mob}>See What We Cover →</EBtn>
+            <EBtnOut t={t} href="#contact" mob={mob}>Become a Partner</EBtnOut>
           </div>
           <div style={{ display: "flex", gap: mob ? 24 : 30, marginTop: mob ? 28 : 48, flexWrap: "wrap" }}>
             {[{ n: "6", l: "JNVs Served" }, { n: "2000+", l: "Students Inspired" }, { n: "8", l: "Events Conducted" }].map(s => (
@@ -661,11 +669,11 @@ function EdTechSite({ t, mob }) {
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: mob ? 28 : 60, alignItems: "center" }}>
           <Reveal><ImgBox label="Hands-on Workshop / Students with UAV" height={300} t={t} /></Reveal>
           <Reveal delay={mob ? 0 : 0.15}>
-            <ELabel t={t}>Why EdTech?</ELabel>
-            <h2 style={EH2(t, mob)}>The Skill Gap<br />We're Closing</h2>
-            <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted }}>India has a massive skill vacuum in UAV development. Practical drone education doesn't exist in schools in any structured form. Under ATL and national STEM initiatives, schools are seeking future-ready programs — PrarambhX delivers exactly that.</p>
+            <ELabel t={t}>The Problem We Solve</ELabel>
+            <h2 style={EH2(t, mob)}>Same Funds.<br />Full Execution.</h2>
+            <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted }}>PM SHRI co-ordinators already carry a full teaching load. ATL, Vigyan Jyoti, and Science Circle activities each need planning, procurement, execution, and RO-ready fund documentation. PrarambhX takes that entire cycle off their plate, executing every activity within the funds already sanctioned, at no extra cost to the school.</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 20 }}>
-              {["Curriculum-aligned workshops", "Hands-on drone building", "DGCA & safety training", "Available PAN India"].map(f => (
+              {["Zero cost beyond allocated funds", "100% fund utilisation, documented", "End-to-end planning to execution", "RO-ready reports every time"].map(f => (
                 <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, padding: mob ? "8px 12px" : "10px 14px", background: "rgba(255,107,26,0.06)", borderRadius: 8, border: "1px solid rgba(255,107,26,0.12)", fontSize: mob ? "0.78rem" : "0.84rem", color: t.text, fontWeight: 600 }}>
                   <span style={{ color: t.primary, flexShrink: 0 }}>✓</span>{f}
                 </div>
@@ -678,9 +686,9 @@ function EdTechSite({ t, mob }) {
       {/* ── WORKSHOPS ── */}
       <section id="products" style={{ padding: `${SP} ${P}`, background: t.bgSection, borderTop: `1px solid ${t.border}` }}>
         <Reveal>
-          <ELabel t={t}>Our Programs</ELabel>
-          <h2 style={EH2(t, mob)}>Workshops &<br />Services</h2>
-          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 500 }}>Every program is interactive, practical, and aligned with school curricula — no prior drone experience needed.</p>
+          <ELabel t={t}>One of Our Offerings</ELabel>
+          <h2 style={EH2(t, mob)}>Hands-On Drone<br />Workshops</h2>
+          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 540 }}>Drone education is one of the activities we deliver under the partnership. Each program is interactive, practical, and curriculum-aligned, with no prior drone experience needed. Below the workshops, see how we cover every other PM SHRI activity too.</p>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "repeat(2, 1fr)", gap: mob ? 14 : 18, marginTop: mob ? 24 : 50 }}>
           {workshops.map((w, i) => <Reveal key={w.title} delay={i * 0.08}><EWorkshopCard w={w} t={t} mob={mob} /></Reveal>)}
@@ -691,19 +699,35 @@ function EdTechSite({ t, mob }) {
       <section style={{ padding: `${SP} ${P}`, borderTop: `1px solid ${t.border}`, background: `linear-gradient(135deg, rgba(255,107,26,0.06) 0%, rgba(255,184,0,0.07) 100%)` }}>
         <Reveal>
           <ELabel t={t}>PM SHRI Partnership</ELabel>
-          <h2 style={EH2(t, mob)}>Your One-Stop Partner<br />for <span style={{ color: t.primary }}>All PM SHRI Activities</span></h2>
+          <h2 style={EH2(t, mob)}>One Partner.<br /><span style={{ color: t.primary }}>Every PM SHRI Activity.</span></h2>
           <p style={{ marginTop: 14, fontSize: mob ? "0.9rem" : "1rem", lineHeight: 1.78, color: t.textMuted, maxWidth: 620 }}>
-            PrarambhX is the dedicated implementation partner for PM SHRI schools — covering every programme activity, supply requirement, and STEM initiative under a single empanelled vendor relationship.
+            PrarambhX is the single, accountable implementation partner for your school's PM SHRI activities. We plan, procure, execute, and document every programme, charging only against funds already sanctioned under the relevant budget head. No planning fee. No retainer. No consultancy charge.
           </p>
+        </Reveal>
+        {/* Zero-cost promise band */}
+        <Reveal delay={0.1}>
+          <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr 1fr" : "repeat(4, 1fr)", gap: mob ? 10 : 14, marginTop: mob ? 22 : 36 }}>
+            {[
+              { n: "ZERO", l: "Extra Cost Beyond\nAllocated Fund" },
+              { n: "100%", l: "Fund Utilisation,\nFully Documented" },
+              { n: "END TO END", l: "Planning, Procurement\n& Execution" },
+              { n: "6", l: "JNVs Served\nUnder PM SHRI" },
+            ].map((s, i) => (
+              <div key={i} style={{ padding: mob ? "16px 12px" : "22px 16px", background: i === 0 ? t.primary : t.bgCard, border: `1.5px solid ${i === 0 ? t.primary : t.border}`, borderRadius: 12, textAlign: "center" }}>
+                <div style={{ fontFamily: t.font, fontWeight: 900, fontSize: mob ? "1.5rem" : "2rem", color: i === 0 ? "#fff" : t.primary, lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontFamily: t.monoFont, fontSize: mob ? "0.48rem" : "0.56rem", letterSpacing: "0.08em", textTransform: "uppercase", color: i === 0 ? "rgba(255,255,255,0.75)" : t.textMuted, marginTop: 8, whiteSpace: "pre-line", lineHeight: 1.6 }}>{s.l}</div>
+              </div>
+            ))}
+          </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "repeat(3, 1fr)", gap: mob ? 12 : 16, marginTop: mob ? 24 : 44 }}>
           {[
-            { icon: "🏫", title: "ATL & Innovation Activities", body: "End-to-end delivery of Atal Tinkering Lab programmes — kits, curriculum, facilitation and documentation — all GeM-compliant." },
-            { icon: "📦", title: "STEM Supplies & Kits", body: "Sourcing and supply of all science, robotics and drone kits required under PM SHRI mandates — audit-safe invoicing included." },
-            { icon: "📋", title: "Vigyan Jyoti Programme", body: "Structured content and resource delivery aligned with the Vigyan Jyoti STEM initiative for girl students in PM SHRI schools." },
-            { icon: "🔬", title: "Science & Maths Circles", body: "Olympiad preparation, Science Circle and Mathematics Circle activity support with trained resource persons." },
-            { icon: "🌐", title: "IKS & NEP Activities", body: "Indian Knowledge Systems and NEP 2020-aligned experiential learning modules delivered to PM SHRI classrooms." },
-            { icon: "✅", title: "RO-Compliant Documentation", body: "Every engagement comes with full RO and NVS-compliant documentation — proposals, delivery reports and utilisation certificates." },
+            { icon: "🏫", title: "Atal Tinkering Lab (ATL)", body: "Hands-on innovation sessions, lab consumable procurement, facilitator deployment, and student project documentation. Budget head: Project Innovation (Recurring)." },
+            { icon: "🔬", title: "Vigyan Jyoti", body: "Structured science engagement built to grow STEM confidence among girl students, Class VI to XII. Budget head: Project Innovation (State Specific)." },
+            { icon: "🧮", title: "Science & Maths Circle", body: "Full project exhibition cycle: student guidance, judging panel co-ordination, prizes, and a complete report. Budget head: Rashtriya Aavishkar Abhiyaan." },
+            { icon: "📦", title: "STEM Supplies & Kits", body: "Sourcing and supply of all science, robotics and drone kits required under PM SHRI mandates, with audit-safe, RO-friendly invoicing." },
+            { icon: "📋", title: "RO-Ready Documentation", body: "Every activity arrives pre-documented: photographic report plus fund utilisation papers ready for Regional Office submission." },
+            { icon: "📅", title: "Fixed Annual Calendar", body: "All activity dates fixed jointly with the co-ordinator at year start, avoiding exam and scheme clashes. Rescheduling at no extra charge." },
           ].map((item, i) => (
             <Reveal key={item.title} delay={i * 0.07}>
               <div style={{ padding: mob ? "18px 16px" : "24px 20px", background: t.bgCard, border: `1.5px solid ${t.border}`, borderRadius: 14, height: "100%" }}>
@@ -719,7 +743,7 @@ function EdTechSite({ t, mob }) {
             <div style={{ fontSize: mob ? "2rem" : "2.4rem", flexShrink: 0 }}>🏆</div>
             <div>
               <div style={{ fontFamily: t.font, fontWeight: 800, fontSize: mob ? "1rem" : "1.15rem", color: t.text, marginBottom: 5 }}>Already Serving PM SHRI JNVs Across Maharashtra & Goa</div>
-              <p style={{ fontSize: mob ? "0.82rem" : "0.88rem", lineHeight: 1.68, color: t.textMuted }}>PrarambhX is a DPIIT-recognised startup and registered GeM vendor — meeting all procurement requirements for PM SHRI schools. Our JNV alumni roots give us direct community trust that no external vendor can replicate.</p>
+              <p style={{ fontSize: mob ? "0.82rem" : "0.88rem", lineHeight: 1.68, color: t.textMuted }}>PrarambhX is a DPIIT-recognised startup and registered GeM vendor, meeting all procurement requirements for PM SHRI schools. Founded by a JNV alumnus, we bring direct community trust that no external vendor can replicate.</p>
             </div>
             <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: t.primary, color: "#fff", fontFamily: t.bodyFont, fontSize: "0.84rem", fontWeight: 700, padding: "11px 22px", textDecoration: "none", borderRadius: 999, whiteSpace: "nowrap", flexShrink: 0 }}>Partner With Us →</a>
           </div>
@@ -755,7 +779,7 @@ function EdTechSite({ t, mob }) {
         <Reveal>
           <ELabel t={t}>Our Reach</ELabel>
           <h2 style={EH2(t, mob)}>Schools We've<br />Worked With</h2>
-          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 480 }}>PrarambhX has delivered programs across 6 Jawahar Navodaya Vidyalayas — inspiring 2,000+ students through 8 hands-on events across Maharashtra and Goa.</p>
+          <p style={{ marginTop: 12, fontSize: mob ? "0.88rem" : "1rem", color: t.textMuted, maxWidth: 480 }}>PrarambhX has delivered programs across 6 Jawahar Navodaya Vidyalayas, inspiring 2,000+ students through 8 hands-on events across Maharashtra and Goa.</p>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: mob ? 28 : 48, marginTop: mob ? 24 : 50, alignItems: "start" }}>
           <Reveal>
